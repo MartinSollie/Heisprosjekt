@@ -1,27 +1,13 @@
-#ifndef ELEV_DATA_ORDER_H
-#define ELEV_DATA_ORDER_H
+#ifndef _ELEV_DATA_ORDER_H_
+#define _ELEV_DATA_ORDER_H_
 
 #include <stdio.h>
+#include <stdbool.h>
 
-typedef enum dir{
-	DIRN_UP,
-	DIRN_DOWN
-} direction_t;
-
-typedef enum pos{
-	FIRST,
-	SECOND,
-	THIRD,
-	FOURTH,
-	FIRST_SECOND, //Between floors
-	SECOND_THIRD,
-	THIRD_FOURTH
-} position_t;
-
-bool getFloorFlag(unsigned int floor, direction_t direction);
+bool getFloorPanelFlag(unsigned int floor, direction_t direction);
 void addElevPanelOrder(unsigned int floor);
 void addFloorPanelOrder(unsigned int floor, direction_t direction);
-void deleteOrder(unsigned int floor);
+void deleteFloorOrders(unsigned int floor);
 void deactivateAndDeleteOrders(void);
 void activateOrders(void);
 position_t getCurrentPosition(void);

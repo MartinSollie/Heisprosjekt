@@ -1,37 +1,45 @@
-#include <stdbool.h>
+#include "elevOrderData.h"
 
-static bool floorFlags[4][2]; //[up/down] in sub-array
-for (int i = 0; i < 4; i++){
-	for (int j = 0; j < 2, j++){
-		floorFlags[i][j] = 0;
-	}
-} // MÅ HA ENTEN ETT FLAGG PER KNAPP (10 elementer) ELLER TRIKSE LITT
+static bool floorPanelFlags[N_FLOORS][2] = {0}; //[up,down] in sub-array
+static bool elevPanelFlags[N_FLOORS] = {0};
+static bool orderingAllowed = true;
 
-bool getFloorFlag(unsigned int floor, direction_t direction){
-	if (direction == DIRN_UP){
-		return floorFlags[floor][0];
-	}
-	else{
-		return floorFlags[floor][1];
-	}
+bool getFloorPanelFlag(unsigned int floor, direction_t direction){
+	return floorPanelFlags[floor][direction];
 }
+
+bool getElevPanelFlag(unsigned int floor){
+	return elevPanelFlags[floor];
+}
+
 void addElevPanelOrder(unsigned int floor){
-	floorFlags[floor][0] = 1;
-	floorFlags[floor][1] = 1;
-}
-void addFloorPanelOrder(unsigned int floor, direction_t direction){
-	if(direction == DIRN_UP){
-		floorFlags[floor][0] = 1;
-	}
-	else{
-		floorFlags[floor][1] = 1;
+	if(orderingAllowed && !getElevPanelFlag(floor)){
+		elevPanelFlags[floor] = 1;
+		printf("Elevator panel order for floor %d added.\n",floor)
 	}
 }
 
-void deleteOrder(unsigned int floor);
-void deactivateAndDeleteOrders(void);
-void activateOrders(void);
-position_t getCurrentPosition(void);
-void setCurrentPosition(position_t position);
-direction_t getCurrentDirection(void);
-void setCurrentDirection(direction_t direction);
+void addFloorPanelOrder(unsigned int floor, direction_t direction){
+	if(orderingAllowed && !getFloorPanelFlag(floor,direction)){
+		floorFlags[floor][direction] = 1;
+		printf("Floor panel order for floor %d ",floor);
+		printf("in direction %d added.\n", direction);
+	}
+}
+
+void deleteFloorOrders(unsigned int floor){
+	elevPanelFlags[floor] = 0;
+	floorPanelFlags[floor][DIRN_UP] = 0;
+	floorPanelFlags[floor][DIRN_DOWN] = 0;
+	printf("Orders for floor %d deleted\n", floor);
+}
+
+void deactivateAndDeleteOrders(void){
+	orderingAllowed = false;
+	for (int floor = 0; floor < 4; floor++){
+		deleteOrder(floor);
+	}
+}
+void activateOrders(void){
+	orderingAllowed = true;
+}

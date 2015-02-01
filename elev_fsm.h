@@ -16,6 +16,8 @@ void evStopButtonPressed();
 void evStopButtonReleasedAtFloor();
 void evStopButtonReleasedBetweenFloors();
 void evAtFloor();
+void evStoppedBetweenFloorFlagSet();
+void fsm_evTimeOut();
 
 
 #endif
