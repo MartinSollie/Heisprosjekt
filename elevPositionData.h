@@ -2,8 +2,8 @@
 #define _ELEV_DATA_ORDER_H_
 
 typedef enum dir{
-	DIRN_UP,
-	DIRN_DOWN
+	DIR_UP,
+	DIR_DOWN
 } direction_t;
 
 typedef enum pos{
