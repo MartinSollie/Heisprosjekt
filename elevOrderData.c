@@ -1,3 +1,4 @@
+#include "elevPositionData.h"
 #include "elevOrderData.h"
 
 static bool floorPanelFlags[N_FLOORS][2] = {0}; //[up,down] in sub-array
@@ -15,13 +16,13 @@ bool getElevPanelFlag(unsigned int floor){
 void addElevPanelOrder(unsigned int floor){
 	if(orderingAllowed && !getElevPanelFlag(floor)){
 		elevPanelFlags[floor] = 1;
-		printf("Elevator panel order for floor %d added.\n",floor)
+		printf("Elevator panel order for floor %d added.\n",floor);
 	}
 }
 
 void addFloorPanelOrder(unsigned int floor, direction_t direction){
 	if(orderingAllowed && !getFloorPanelFlag(floor,direction)){
-		floorFlags[floor][direction] = 1;
+		floorPanelFlags[floor][direction] = 1;
 		printf("Floor panel order for floor %d ",floor);
 		printf("in direction %d added.\n", direction);
 	}
@@ -37,7 +38,7 @@ void deleteFloorOrders(unsigned int floor){
 void deactivateAndDeleteOrders(void){
 	orderingAllowed = false;
 	for (int floor = 0; floor < 4; floor++){
-		deleteOrder(floor);
+		deleteFloorOrders(floor);
 	}
 }
 void activateOrders(void){

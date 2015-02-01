@@ -9,7 +9,7 @@ position_t getCurrentPosition(void){
 
 void setCurrentPosition(position_t pos){
 	position = pos;
-	return:
+	return;
 }
 
 direction_t getCurrentDirection(void){
