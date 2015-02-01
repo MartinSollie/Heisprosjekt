@@ -11,7 +11,7 @@ typedef enum fsm_states {
 } state_t;
 
 state_t fsm_getCurrentState();
-int fsm_elevInit();
+void fsm_elevInit();
 void evStopButtonPressed();
 void evStopButtonReleasedAtFloor();
 void evStopButtonReleasedBetweenFloors();

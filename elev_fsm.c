@@ -12,7 +12,7 @@ state_t fsm_getCurrentState(){
 	return state;
 }
 
-int fsm_elevInit(){	
+void fsm_elevInit(){	
 	setCurrentDirection(DIRN_UP);
 	int floorSignal = elev_get_floor_sensor_signal();
 	if (floorSignal == -1){ // If between floors

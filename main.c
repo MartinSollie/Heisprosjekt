@@ -7,10 +7,11 @@
 
 
 #include <stdio.h>
-//#include "elev.h"
-//#include "time.h"
-//#include "elevPositionData.h"
-//#include "elevOrderData.h"
+#include "elev.h"
+#include "time.h"
+#include "elevPositionData.h"
+#include "elevOrderData.h"
+#include "elev_fsm.h"
 
 int main() {
     // Initialize hardware
@@ -18,6 +19,11 @@ int main() {
         printf("Unable to initialize elevator hardware!\n");
         return 1;
     }
+
+    fsm_elevInit();
+    return 0;
+
+
 }
 
 
