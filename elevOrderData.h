@@ -2,7 +2,7 @@
 #define _ELEV_ORDER_DATA_H_
 
 #include <stdbool.h>
-#include "elevPositionData.h"
+#include "elevPositionData.h" /////fyfyfyfy, lag egen type for retning
 
 bool getFloorPanelFlag(unsigned int floor, direction_t direction);
 bool getElevPanelFlag(unsigned int floor);

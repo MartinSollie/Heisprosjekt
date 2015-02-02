@@ -31,7 +31,7 @@ void timer_stop(){
 }
 
 bool timer_isTimeOut(){
-	if(start_secs < 0 || start_n_secs < 0){
+	if(start_seconds < 0 || start_nanoseconds < 0){
 		// There is no timeout, because the timer is not started
 		return false;
 	}

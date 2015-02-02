@@ -33,6 +33,7 @@ void fsm_elevInit(void){
 	setCurrentPosition(floorSignal);
 	elev_set_floor_indicator(floorSignal);
 	state = STATE_AT_FLOOR;
+	return;
 }
 
 void evStopButtonPressed(){

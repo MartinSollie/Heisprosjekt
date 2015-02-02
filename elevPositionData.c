@@ -2,6 +2,7 @@
 
 static direction_t direction;
 static position_t position;
+unsigned int lastFloorVisited;
 
 position_t getCurrentPosition(void){
 	return position;
@@ -21,11 +22,19 @@ void setCurrentDirection(direction_t dir){
 	return;
 }
 
-void invertCurrentDirection(void){ //////////////
+void invertCurrentDirection(void){
 	if(direction == DIR_UP){
 		direction = DIR_DOWN;
 	}
 	else{
 		direction = DIR_UP;
 	}
+}
+
+void setLastFloorVisited(int floor){
+	lastFloorVisited = floor;
+}
+
+unsigned int getlastFloorVisited(void){
+	return lastFloorVisited;
 }

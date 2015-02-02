@@ -2,8 +2,8 @@
 #define _ELEV_POSITION_DATA_H_
 
 typedef enum dir{
-	DIR_UP,
-	DIR_DOWN
+	DIR_UP = 1,
+	DIR_DOWN = -1
 } direction_t;
 
 typedef enum pos{
@@ -20,6 +20,8 @@ position_t getCurrentPosition(void);
 void setCurrentPosition(position_t pos);
 direction_t getCurrentDirection(void);
 void setCurrentDirection(direction_t dir);
-void invertCurrentDirection(void); ////
+void invertCurrentDirection(void);
+unsigned int getlastFloorVisited(void);
+void setLastFloorVisited(int floor);
 
 #endif
