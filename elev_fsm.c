@@ -34,7 +34,7 @@ void fsm_elevInit(void){
 	elev_set_floor_indicator(floorSignal);
 	setLastFloorVisited(floorSignal);
 	state = STATE_AT_FLOOR;
-	printf("Entering state %d\n",state);
+	printf("Entering state STATE_AT_FLOOR (ref:1)\n");
 	return;
 }
 
@@ -52,7 +52,7 @@ void evStopButtonReleasedAtFloor(){
 	//+sjekk timer og lukk dør hvis den har vært åpen i over 3 sekunder
 	elev_set_door_open_lamp(0);
 	state = STATE_AT_FLOOR;
-	printf("Entering state %d\n",state);
+	printf("Entering state STATE_AT_FLOOR (ref:2)\n");
 }
 void evStopButtonReleasedBetweenFloors(){
 	activateOrdering();
@@ -78,7 +78,7 @@ void evAtFloor(){
 		//delete orders for this floor
 		deleteFloorOrders(floor);
 		state = STATE_ELEVATOR_OPEN;
-		printf("Entering state STATE_ELEVATOR_OPEN\n");
+		printf("Entering state STATE_ELEVATOR_OPEN (ref:1)\n");
 		return;
 	}
 
@@ -96,7 +96,7 @@ void evAtFloor(){
 		//delete orders for this floor
 		deleteFloorOrders(floor);
 		state = STATE_ELEVATOR_OPEN;
-		printf("Entering state STATE_ELEVATOR_OPEN\n");
+		printf("Entering state STATE_ELEVATOR_OPEN (ref:2)\n");
 		return;
 	}
 
@@ -107,7 +107,7 @@ void evAtFloor(){
 				elev_set_motor_direction(dir);
 				setLastFloorVisited(getCurrentPosition());
 				state = STATE_CONTINUE_MOVING;
-				printf("Entering state STATE_CONTINUE_MOVING\n");
+				printf("Entering state STATE_CONTINUE_MOVING (ref:1)\n");
 				return;
 			}
 		}
@@ -118,7 +118,7 @@ void evAtFloor(){
 				elev_set_motor_direction(dir);
 				setLastFloorVisited(getCurrentPosition());
 				state = STATE_CONTINUE_MOVING;
-				printf("Entering state STATE_CONTINUE_MOVING\n");
+				printf("Entering state STATE_CONTINUE_MOVING (ref:2)\n");
 				return;
 			}
 		}
@@ -143,7 +143,7 @@ void evAtFloor(){
 				//delete orders for this floor
 				deleteFloorOrders(floor);
 				state = STATE_ELEVATOR_OPEN;
-				printf("Entering state STATE_ELEVATOR_OPEN\n");
+				printf("Entering state STATE_ELEVATOR_OPEN (ref:3)\n");
 				return;
 			}
 		}
@@ -166,7 +166,7 @@ void evAtFloor(){
 				//delete orders for this floor
 				deleteFloorOrders(floor);
 				state = STATE_ELEVATOR_OPEN;
-				printf("Entering state STATE_ELEVATOR_OPEN\n");
+				printf("Entering state STATE_ELEVATOR_OPEN (ref:4)\n");
 				return;
 			}
 		}
@@ -180,8 +180,9 @@ void evAtFloor(){
 				dir = getCurrentDirection();
 				elev_set_motor_direction(dir);
 				printf("starting motor");
+				setLastFloorVisited(getCurrentPosition());
 				state = STATE_CONTINUE_MOVING;
-				printf("Entering state STATE_CONTINUE_MOVING\n");
+				printf("Entering state STATE_CONTINUE_MOVING (ref:3)\n");
 				return;
 			}
 		}
@@ -192,8 +193,9 @@ void evAtFloor(){
 				invertCurrentDirection();
 				dir = getCurrentDirection();
 				elev_set_motor_direction(dir);
+				setLastFloorVisited(getCurrentPosition());
 				state = STATE_CONTINUE_MOVING;
-				printf("Entering state STATE_CONTINUE_MOVING\n");
+				printf("Entering state STATE_CONTINUE_MOVING (ref:4)\n");
 				return;
 			}
 		}
@@ -220,8 +222,9 @@ void evStoppedBetweenFloorFlagSet(){
 		for (int i = lowerLimitFloorsAbove; i < N_FLOORS; i++){
 			if(getElevPanelFlag(i) || getFloorPanelFlag(i,DIRN_UP) || getFloorPanelFlag(i,DIRN_DOWN)){
 				elev_set_motor_direction(dir);
+				setLastFloorVisited(getCurrentPosition());
 				state = STATE_CONTINUE_MOVING;
-				printf("Entering state STATE_CONTINUE_MOVING\n");
+				printf("Entering state STATE_CONTINUE_MOVING (ref:5)\n");
 				return;
 			}
 		}
@@ -229,8 +232,9 @@ void evStoppedBetweenFloorFlagSet(){
 			if(getElevPanelFlag(i) || getFloorPanelFlag(i,DIRN_UP) || getFloorPanelFlag(i,DIRN_DOWN)){
 				invertCurrentDirection();
 				elev_set_motor_direction(dir);
+				setLastFloorVisited(getCurrentPosition());
 				state = STATE_CONTINUE_MOVING;
-				printf("Entering state STATE_CONTINUE_MOVING\n");
+				printf("Entering state STATE_CONTINUE_MOVING (ref:6)\n");
 				return;
 			}
 		}
@@ -239,8 +243,9 @@ void evStoppedBetweenFloorFlagSet(){
 		for (int i = 0; i <= upperLimitFloorsBelow; i++){
 			if(getElevPanelFlag(i) || getFloorPanelFlag(i,DIRN_UP) || getFloorPanelFlag(i,DIRN_DOWN)){
 				elev_set_motor_direction(dir);
+				setLastFloorVisited(getCurrentPosition());
 				state = STATE_CONTINUE_MOVING;
-				printf("Entering state STATE_CONTINUE_MOVING\n");
+				printf("Entering state STATE_CONTINUE_MOVING (ref:7)\n");
 				return;
 			}
 		}
@@ -248,8 +253,9 @@ void evStoppedBetweenFloorFlagSet(){
 			if(getElevPanelFlag(i) || getFloorPanelFlag(i,DIRN_UP) || getFloorPanelFlag(i,DIRN_DOWN)){
 				invertCurrentDirection();
 				elev_set_motor_direction(dir);
+				setLastFloorVisited(getCurrentPosition());
 				state = STATE_CONTINUE_MOVING;
-				printf("Entering state STATE_CONTINUE_MOVING\n");
+				printf("Entering state STATE_CONTINUE_MOVING (ref:8)\n");
 				return;
 			}
 		}		
@@ -260,7 +266,7 @@ void evStoppedBetweenFloorFlagSet(){
 void fsm_evTimeOut(){
 	if(timer_isTimeOut()){
 		state = STATE_AT_FLOOR;
-		printf("Entering state STATE_AT_FLOOR\n");
+		printf("Entering state STATE_AT_FLOOR after timeout\n");
 		elev_set_door_open_lamp(0);
 		timer_stop();
 		return;

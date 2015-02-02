@@ -77,6 +77,8 @@ int main() {
 				case(STATE_CONTINUE_MOVING):;//assignment not allowed without ;
 					// if next floor reached, if not: do nothing
 					int pos = getCurrentPosition();
+                    printf("pos has value %d\n",pos);
+                    printf("last floor returns %d\n",getLastFloorVisited())
 					if((pos != getLastFloorVisited()) && (pos == 0 || pos == 1 || pos == 2 || pos == 3)){
 						evAtFloor();
 					}
