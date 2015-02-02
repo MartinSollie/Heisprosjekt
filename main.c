@@ -1,4 +1,4 @@
-//Enable POSIX definitions when compiling with C99 instead of GCC.
+//Enable POSIX definitions when compiling with C99 instead of GCC
 #if __STDC_VERSION__ >= 199901L
 #define _XOPEN_SOURCE 600
 #else

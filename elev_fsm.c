@@ -8,14 +8,18 @@
 
 static state_t state;
 
-state_t fsm_getCurrentState(){
+state_t fsm_getCurrentState(void){
 	return state;
 }
 
-void fsm_elevInit(){	
+void fsm_elevInit(void){
+	printf("Entered function\n");	
 	setCurrentDirection(DIRN_UP);
 	int floorSignal = elev_get_floor_sensor_signal();
+	printf("floorSignal = %d \n",floorSignal);
 	if (floorSignal == -1){ // If between floors
+		printf("starting motor\n");
+		printf("getCurrentDirection returns %d \n",getCurrentDirection());
 		elev_set_motor_direction(getCurrentDirection());
 		//Stop when a floor is reached
 		while(1){
@@ -36,7 +40,7 @@ void evStopButtonPressed(){
 	if(elev_get_floor_sensor_signal() != -1){
 		elev_set_door_open_lamp(1);
 	}
-	deactivateOrderingAndDeleteOrders();
+	deactivateAndDeleteOrders();
 	state = STATE_STOP_BUTTON_PRESSED;
 }
 void evStopButtonReleasedAtFloor(){
@@ -60,7 +64,7 @@ void evAtFloor(){
 		//open door
 		elev_set_door_open_lamp(1);
 		//start timer
-		timer_startTimer();
+		timer_start();
 		//delete orders for this floor
 		deleteFloorOrders(floor);
 		state = STATE_ELEVATOR_OPEN;
@@ -74,7 +78,7 @@ void evAtFloor(){
 		//open door
 		elev_set_door_open_lamp(1);
 		//start timer
-		timer_startTimer();
+		timer_start();
 		//delete orders for this floor
 		deleteFloorOrders(floor);
 		state = STATE_ELEVATOR_OPEN;
@@ -113,7 +117,7 @@ void evAtFloor(){
 				//open door
 				elev_set_door_open_lamp(1);
 				//start timer
-				timer_startTimer();
+				timer_start();
 				//delete orders for this floor
 				deleteFloorOrders(floor);
 				state = STATE_ELEVATOR_OPEN;
@@ -132,7 +136,7 @@ void evAtFloor(){
 				//open door
 				elev_set_door_open_lamp(1);
 				//start timer
-				timer_startTimer();
+				timer_start();
 				//delete orders for this floor
 				deleteFloorOrders(floor);
 				state = STATE_ELEVATOR_OPEN;
@@ -223,7 +227,7 @@ void fsm_evTimeOut(){
 	if(timer_isTimeOut()){
 		state = STATE_AT_FLOOR;
 		elev_set_door_open_lamp(0);
-		timer_stopAndResetTimer();
+		timer_stop();
 		return;
 	}
 }

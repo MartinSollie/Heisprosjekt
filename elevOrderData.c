@@ -1,7 +1,9 @@
-#include "elevPositionData.h"
 #include "elevOrderData.h"
 
-static bool floorPanelFlags[N_FLOORS][2] = {0}; //[up,down] in sub-array
+#include <stdio.h>
+#include "elev.h"
+
+static bool floorPanelFlags[N_FLOORS][2] = {{0},{0},{0},{0}}; //[up,down] in sub-array
 static bool elevPanelFlags[N_FLOORS] = {0};
 static bool orderingAllowed = true;
 
@@ -41,6 +43,6 @@ void deactivateAndDeleteOrders(void){
 		deleteFloorOrders(floor);
 	}
 }
-void activateOrders(void){
+void activateOrdering(void){
 	orderingAllowed = true;
 }

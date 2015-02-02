@@ -10,14 +10,14 @@ typedef enum fsm_states {
 	STATE_CONTINUE_MOVING
 } state_t;
 
-state_t fsm_getCurrentState();
-void fsm_elevInit();
-void evStopButtonPressed();
-void evStopButtonReleasedAtFloor();
-void evStopButtonReleasedBetweenFloors();
-void evAtFloor();
-void evStoppedBetweenFloorFlagSet();
-void fsm_evTimeOut();
+state_t fsm_getCurrentState(void);
+void fsm_elevInit(void);
+void evStopButtonPressed(void);
+void evStopButtonReleasedAtFloor(void);
+void evStopButtonReleasedBetweenFloors(void);
+void evAtFloor(void);
+void evStoppedBetweenFloorFlagSet(void);
+void fsm_evTimeOut(void);
 
 
 #endif

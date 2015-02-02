@@ -20,3 +20,12 @@ void setCurrentDirection(direction_t dir){
 	direction = dir;
 	return;
 }
+
+void invertCurrentDirection(void){ //////////////
+	if(direction == DIR_UP){
+		direction = DIR_DOWN;
+	}
+	else{
+		direction = DIR_UP;
+	}
+}
