@@ -22,16 +22,16 @@ void fsm_elevInit(void){
 		printf("getCurrentDirection returns %d \n",getCurrentDirection());
 		elev_set_motor_direction(getCurrentDirection());
 		//Stop when a floor is reached
-		while(1){
+		while(floorSignal == -1){
 			floorSignal = elev_get_floor_sensor_signal();
 			if(floorSignal != -1){
 				elev_set_motor_direction(DIRN_STOP);
-				break;
 			}
 		}
 	}
 	setCurrentPosition(floorSignal);
 	elev_set_floor_indicator(floorSignal);
+	setLastFloorVisited(floorSignal);
 	state = STATE_AT_FLOOR;
 	return;
 }
@@ -52,11 +52,12 @@ void evStopButtonReleasedAtFloor(){
 }
 void evStopButtonReleasedBetweenFloors(){
 	activateOrdering();
-	state = STATE_STOP_BUTTON_RELEASED;
+	state = STATE_STOP_BUTTON_RELEASED_BETWEEN_FLOORS;
 }
 void evAtFloor(){
 	direction_t dir = getCurrentDirection();
 	position_t floor = getCurrentPosition(); //Will not be between floors at this point
+	elev_set_floor_indicator(floor);
 
 	//Any request to get off on this floor?
 	if(getElevPanelFlag(floor)){
@@ -91,6 +92,7 @@ void evAtFloor(){
 		for (int i = floor-1; i >= 0; i--){
 			if((getElevPanelFlag(i) || getFloorPanelFlag(i,DIRN_UP) || getFloorPanelFlag(i,DIRN_DOWN)) && state != STATE_CONTINUE_MOVING){
 				elev_set_motor_direction(dir);
+				setLastFloorVisited = (int)getCurrentPosition;
 				state = STATE_CONTINUE_MOVING;
 				return;
 			}
@@ -100,6 +102,7 @@ void evAtFloor(){
 		for (int i = floor+1; i < N_FLOORS; i++){
 			if((getElevPanelFlag(i) || getFloorPanelFlag(i,DIRN_UP) || getFloorPanelFlag(i,DIRN_DOWN)) && state != STATE_CONTINUE_MOVING){
 				elev_set_motor_direction(dir);
+				setLastFloorVisited = (int)getCurrentPosition;
 				state = STATE_CONTINUE_MOVING;
 				return;
 			}
