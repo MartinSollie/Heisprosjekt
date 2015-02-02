@@ -35,6 +35,6 @@ void setLastFloorVisited(int floor){
 	lastFloorVisited = floor;
 }
 
-unsigned int getlastFloorVisited(void){
+unsigned int getLastFloorVisited(void){
 	return lastFloorVisited;
 }

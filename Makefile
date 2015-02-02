@@ -1,5 +1,5 @@
 # Which compiler to use
-CC = clang
+CC = c99
 
 # Compiler flags go here.
 CFLAGS = -g -Wall
@@ -8,7 +8,7 @@ CFLAGS = -g -Wall
 LDFLAGS = -lcomedi -lm
 
 # list of sources
-ELEVSRC = elev.c io.c main.c
+ELEVSRC = elevPositionData.c elevOrderData.c timer.c elev.c io.c main.c
 
 # program executable file name.
 TARGET = heis

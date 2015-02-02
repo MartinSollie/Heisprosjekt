@@ -8,7 +8,7 @@
 
 #include <stdio.h>
 #include "elev.h"
-#include "time.h"
+#include "timer.h"
 #include "elevPositionData.h"
 #include "elevOrderData.h"
 #include "elev_fsm.h"
@@ -26,15 +26,18 @@ int main() {
     	for (int i = 0; i < N_FLOORS; i++){
     		if(elev_get_button_signal(BUTTON_COMMAND, i)){
     			addElevPanelOrder(i);
+                printf("Detected command button press %d\n",i);
     		}
     		if(i != 0){
     			if(elev_get_button_signal(BUTTON_CALL_DOWN, i)){
     				addFloorPanelOrder(i, DIR_DOWN);
+                    printf("Detected DOWN button press %d\n",i);
     			}
     		}
     		if(i != N_FLOORS-1){
     			if(elev_get_button_signal(BUTTON_CALL_UP, i)){
     				addFloorPanelOrder(i, DIR_UP);
+                    printf("Detected UP button press %d\n",i);
     			}
     		}
 
@@ -58,7 +61,7 @@ int main() {
 							evStopButtonReleasedAtFloor();
 						}
 						else{
-							evStopButtonReleaseBetweenFloors();
+							evStopButtonReleasedBetweenFloors();
 						}
 					}
 					break;
@@ -71,10 +74,10 @@ int main() {
 						fsm_evTimeOut();
 					}
 					break;
-				case(STATE_CONTINUE_MOVING):
+				case(STATE_CONTINUE_MOVING):;//assignment not allowed without ;
 					// if next floor reached, if not: do nothing
-					int pos = (int)getCurrentPosition();
-					if((pos != lastFloorVisited) && ((pos == 0 || pos == 1 || pos == 2 || pos == 3){
+					int pos = getCurrentPosition();
+					if((pos != getLastFloorVisited()) && (pos == 0 || pos == 1 || pos == 2 || pos == 3)){
 						evAtFloor();
 					}
 					break;

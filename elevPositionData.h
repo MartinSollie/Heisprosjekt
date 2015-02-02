@@ -21,7 +21,7 @@ void setCurrentPosition(position_t pos);
 direction_t getCurrentDirection(void);
 void setCurrentDirection(direction_t dir);
 void invertCurrentDirection(void);
-unsigned int getlastFloorVisited(void);
+unsigned int getLastFloorVisited(void);
 void setLastFloorVisited(int floor);
 
 #endif
