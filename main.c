@@ -26,18 +26,18 @@ int main() {
     	for (int i = 0; i < N_FLOORS; i++){
     		if(elev_get_button_signal(BUTTON_COMMAND, i)){
     			addElevPanelOrder(i);
-                printf("Detected command button press %d\n",i);
+                //printf("Detected command button press %d\n",i);
     		}
     		if(i != 0){
     			if(elev_get_button_signal(BUTTON_CALL_DOWN, i)){
     				addFloorPanelOrder(i, DIR_DOWN);
-                    printf("Detected DOWN button press %d\n",i);
+                    //printf("Detected DOWN button press %d\n",i);
     			}
     		}
     		if(i != N_FLOORS-1){
     			if(elev_get_button_signal(BUTTON_CALL_UP, i)){
     				addFloorPanelOrder(i, DIR_UP);
-                    printf("Detected UP button press %d\n",i);
+                    //printf("Detected UP button press %d\n",i);
     			}
     		}
 
