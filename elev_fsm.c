@@ -66,37 +66,37 @@ void evAtFloor(){
 
 	//Any request to get off on this floor?
 	if(getElevPanelFlag(floor)){
+		printf("Request to get off on this floor detected\n");
 		//stop
 		elev_set_motor_direction(DIRN_STOP);
-		printf("Stopping motor\n");
+		printf("   Stopping motor\n");
 		//open door
 		elev_set_door_open_lamp(1);
-		printf("Opening doors\n");
+		printf("   Opening doors\n");
 		//start timer
 		timer_start();
-		printf("Starting timer\n");
 		//delete orders for this floor
 		deleteFloorOrders(floor);
 		state = STATE_ELEVATOR_OPEN;
-		printf("Entering state STATE_ELEVATOR_OPEN (ref:1)\n");
+		printf("   Entering state STATE_ELEVATOR_OPEN (ref:1)\n");
 		return;
 	}
 
 	//Any request to get on in current direction?
 	if(getFloorPanelFlag(floor,dir)){
+		printf("Request to get on in current direction detected\n");
 		//stop
 		elev_set_motor_direction(DIRN_STOP);
-		printf("Stopping motor\n");
+		printf("   Stopping motor\n");
 		//open door
 		elev_set_door_open_lamp(1);
-		printf("Opening doors\n");
+		printf("   Opening doors\n");
 		//start timer
 		timer_start();
-		printf("Starting timer\n");
 		//delete orders for this floor
 		deleteFloorOrders(floor);
 		state = STATE_ELEVATOR_OPEN;
-		printf("Entering state STATE_ELEVATOR_OPEN (ref:2)\n");
+		printf("   Entering state STATE_ELEVATOR_OPEN (ref:2)\n");
 		return;
 	}
 
@@ -104,10 +104,12 @@ void evAtFloor(){
 	if(dir == DIRN_DOWN){
 		for (int i = floor-1; i >= 0; i--){
 			if((getElevPanelFlag(i) || getFloorPanelFlag(i,DIRN_UP) || getFloorPanelFlag(i,DIRN_DOWN)) && state != STATE_CONTINUE_MOVING){
+				printf("Request ahead detected\n");
 				elev_set_motor_direction(dir);
+				printf("   Starting motor\n");
 				setLastFloorVisited(getCurrentPosition());
 				state = STATE_CONTINUE_MOVING;
-				printf("Entering state STATE_CONTINUE_MOVING (ref:1)\n");
+				printf("   Entering state STATE_CONTINUE_MOVING (ref:1)\n");
 				return;
 			}
 		}
@@ -115,10 +117,12 @@ void evAtFloor(){
 	else{
 		for (int i = floor+1; i < N_FLOORS; i++){
 			if((getElevPanelFlag(i) || getFloorPanelFlag(i,DIRN_UP) || getFloorPanelFlag(i,DIRN_DOWN)) && state != STATE_CONTINUE_MOVING){
+				printf("Request ahead detected\n");
 				elev_set_motor_direction(dir);
+				printf("   Starting motor\n");
 				setLastFloorVisited(getCurrentPosition());
 				state = STATE_CONTINUE_MOVING;
-				printf("Entering state STATE_CONTINUE_MOVING (ref:2)\n");
+				printf("   Entering state STATE_CONTINUE_MOVING (ref:2)\n");
 				return;
 			}
 		}
@@ -127,42 +131,42 @@ void evAtFloor(){
 	//Any request to get on in opposite direction on current floor?
 	if(dir == DIRN_DOWN){
 		if(getFloorPanelFlag(floor, DIRN_UP)){
+			printf("Request to get on in opposite direction on current floor detected\n");
 			invertCurrentDirection();
 			dir = getCurrentDirection();
 			//Request to get on in current direction on this floor
 			if(getFloorPanelFlag(floor,dir)){
 				//stop
 				elev_set_motor_direction(DIRN_STOP);
-				printf("Stopping motor\n");
+				printf("   Stopping motor\n");
 				//open door
 				elev_set_door_open_lamp(1);
-				printf("Opening doors\n");
+				printf("   Opening doors\n");
 				//start timer
 				timer_start();
-				printf("Starting timer\n");
 				//delete orders for this floor
 				deleteFloorOrders(floor);
 				state = STATE_ELEVATOR_OPEN;
-				printf("Entering state STATE_ELEVATOR_OPEN (ref:3)\n");
+				printf("   Entering state STATE_ELEVATOR_OPEN (ref:3)\n");
 				return;
 			}
 		}
 	}
 	if(dir == DIRN_UP){
 		if(getFloorPanelFlag(floor, DIRN_DOWN)){
+			printf("Request to get on in opposite direction on current floor detected\n");
 			invertCurrentDirection();
 			dir = getCurrentDirection();
 			//Request to get on in current direction on this floor
 			if(getFloorPanelFlag(floor,dir)){
 				//stop
 				elev_set_motor_direction(DIRN_STOP);
-				printf("Stopping motor\n");
+				printf("   Stopping motor\n");
 				//open door
 				elev_set_door_open_lamp(1);
-				printf("Opening doors\n");
+				printf("   Opening doors\n");
 				//start timer
 				timer_start();
-				printf("Starting timer\n");
 				//delete orders for this floor
 				deleteFloorOrders(floor);
 				state = STATE_ELEVATOR_OPEN;
@@ -176,13 +180,15 @@ void evAtFloor(){
 	if(dir == DIRN_DOWN){
 		for(int i = floor+1; i < N_FLOORS; i++){
 			if(getElevPanelFlag(i) || getFloorPanelFlag(i,DIRN_UP) || getFloorPanelFlag(i,DIRN_DOWN)){
+				printf("Requests behind detected\n");
 				invertCurrentDirection();
+				printf("   Direction inverted\n");
 				dir = getCurrentDirection();
 				elev_set_motor_direction(dir);
-				printf("starting motor");
+				printf("   starting motor");
 				setLastFloorVisited(getCurrentPosition());
 				state = STATE_CONTINUE_MOVING;
-				printf("Entering state STATE_CONTINUE_MOVING (ref:3)\n");
+				printf("   Entering state STATE_CONTINUE_MOVING (ref:3)\n");
 				return;
 			}
 		}
@@ -190,12 +196,15 @@ void evAtFloor(){
 	if(dir == DIRN_UP){
 		for(int i = floor-1; i >= 0; i--){
 			if(getElevPanelFlag(i) || getFloorPanelFlag(i,DIRN_UP) || getFloorPanelFlag(i,DIRN_DOWN)){
+				printf("Requests behind detected\n");
 				invertCurrentDirection();
+				printf("   Direction inverted\n");
 				dir = getCurrentDirection();
 				elev_set_motor_direction(dir);
+				printf("   starting motor");
 				setLastFloorVisited(getCurrentPosition());
 				state = STATE_CONTINUE_MOVING;
-				printf("Entering state STATE_CONTINUE_MOVING (ref:4)\n");
+				printf("    Entering state STATE_CONTINUE_MOVING (ref:4)\n");
 				return;
 			}
 		}
