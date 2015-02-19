@@ -70,7 +70,7 @@ void fsm_evStopButtonReleasedBetweenFloors(void){
 
 }
 
-void fsm_evCheckOrders(void){
+void fsm_evReadyToCheckActions(void){
 	if (state == STATE_STOP_BUTTON_RELEASED_AT_FLOOR){
 		if(timer_isTimeOut()){
 			timer_stop();

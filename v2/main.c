@@ -3,6 +3,7 @@
 #include "elevPositionData.h"
 #include "elevOrderData.h"
 #include "elev_fsm.h"
+#include "elev.h"
 
 int main(void){
 	// Initialize hardware
@@ -22,14 +23,14 @@ int main(void){
     		}
     		if(i != 0){
     			if(elev_get_button_signal(BUTTON_CALL_DOWN, i)){
-    				addFloorPanelOrder(i, DIR_DOWN);
+    				addFloorPanelOrder(i, DIRN_DOWN);
                     elev_set_button_lamp(BUTTON_CALL_DOWN, i, 1);
                     //printf("Detected DOWN button press %d\n",i);
     			}
     		}
     		if(i != N_FLOORS-1){
     			if(elev_get_button_signal(BUTTON_CALL_UP, i)){
-    				addFloorPanelOrder(i, DIR_UP);
+    				addFloorPanelOrder(i, DIRN_UP);
                     elev_set_button_lamp(BUTTON_CALL_UP, i, 1);
                     //printf("Detected UP button press %d\n",i);
     			}
@@ -40,7 +41,7 @@ int main(void){
 
     	if (fsm_getCurrentState() != STATE_STOP_BUTTON_PRESSED){
     		if(elev_get_stop_signal()){
-    			evStopButtonPressed();
+    			fsm_evStopButtonPressed();
     		}
     	}
 
@@ -70,7 +71,7 @@ int main(void){
 				}
 				break;
 			case(STATE_CONTINUE_MOVING):
-				if(elev_get_floor_sensor_signal != -1 && elev_get_floor_sensor_signal != getLastFloorVisited()){
+				if(elev_get_floor_sensor_signal() != -1 && elev_get_floor_sensor_signal() != getLastFloorVisited()){
 					fsm_evNextFloorReached();
 				}
 				break;
