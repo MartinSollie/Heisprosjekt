@@ -1,14 +1,9 @@
 #include <stdio.h>
 #include "timer.h"
+#include "elevPositionData.h"
+#include "elevOrderData.h"
 
 int main(void){
-	timer_start();
-	while(1){
-		if(timer_isTimeOut()){
-			timer_stop();
-			break;
-		}
-	}
 
-	return 0;
+
 }
