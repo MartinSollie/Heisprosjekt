@@ -23,14 +23,14 @@ int main(void){
     		}
     		if(i != 0){
     			if(elev_get_button_signal(BUTTON_CALL_DOWN, i)){
-    				addFloorPanelOrder(i, DIRN_DOWN);
+    				addFloorPanelOrder(i, -1);
                     elev_set_button_lamp(BUTTON_CALL_DOWN, i, 1);
                     //printf("Detected DOWN button press %d\n",i);
     			}
     		}
     		if(i != N_FLOORS-1){
     			if(elev_get_button_signal(BUTTON_CALL_UP, i)){
-    				addFloorPanelOrder(i, DIRN_UP);
+    				addFloorPanelOrder(i, 1);
                     elev_set_button_lamp(BUTTON_CALL_UP, i, 1);
                     //printf("Detected UP button press %d\n",i);
     			}
@@ -50,7 +50,7 @@ int main(void){
     			fsm_evReadyToCheckActions();
     			break;
 			case(STATE_STOP_BUTTON_PRESSED):
-				if(!elev_get_stop_signal()){
+				if(elev_get_stop_signal() == 0){
 					if(elev_get_floor_sensor_signal() != -1){
 						fsm_evStopButtonReleasedAtFloor();
 					}
@@ -70,8 +70,9 @@ int main(void){
 					fsm_evTimeOut();
 				}
 				break;
-			case(STATE_CONTINUE_MOVING):
-				if(elev_get_floor_sensor_signal() != -1 && elev_get_floor_sensor_signal() != getLastFloorVisited()){
+			case(STATE_CONTINUE_MOVING):;
+				int floor = elev_get_floor_sensor_signal();
+				if(((floor != -1) && (floor != getLastFloorVisited())) || ((floor == getLastFloorVisited()) && (getCurrentDirection() != getDirectionWhenLeavingLastFloor()))){
 					fsm_evNextFloorReached();
 				}
 				break;

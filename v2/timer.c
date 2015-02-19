@@ -10,8 +10,8 @@
 #include <assert.h>
 #include <stdio.h>
 
-static unsigned long int start_seconds = -1;
-static unsigned long int start_nanoseconds = -1; // number of nanoseconds into last whole second
+static long int start_seconds = -1;
+static long int start_nanoseconds = -1; // number of nanoseconds into last whole second
 static struct timespec ts;
 
 void timer_start(){
@@ -20,7 +20,7 @@ void timer_start(){
 	start_nanoseconds = ts.tv_nsec; 
 	assert(start_seconds != -1);
 	assert(start_nanoseconds != -1);
-	printf("Timer started.\n");
+	printf("Timer started.\n ");
 }
 
 void timer_stop(){
@@ -31,17 +31,17 @@ void timer_stop(){
 
 bool timer_isTimeOut(){
 	if((start_seconds < 0) || (start_nanoseconds < 0)){
-		// There is no timeout, because the timer is not started
+		//There is no timeout, because the timer is not started
 		return false;
 	}
 	clock_gettime(CLOCK_REALTIME, &ts);
-	unsigned long int seconds = ts.tv_sec;
-	unsigned long int nanoseconds = ts.tv_nsec;
+	long int seconds = ts.tv_sec;
+	long int nanoseconds = ts.tv_nsec;
 	long int diff_seconds = seconds - start_seconds;
 	long int diff_nanoseconds = nanoseconds - start_nanoseconds;
 	if((diff_seconds >= 3) && (diff_nanoseconds > 0)){
-		printf("Time is out. Time elapsed: %lu.",diff_seconds);
-		printf("%09lu seconds.\n",diff_nanoseconds);
+		printf("Time is out. Time elapsed: %ld.",diff_seconds);
+		printf("%09ld seconds.\n",diff_nanoseconds);
 		return true;
 	}
 	return false;

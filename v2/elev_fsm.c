@@ -60,7 +60,6 @@ void fsm_evStopButtonPressed(void){
 
 void fsm_evStopButtonReleasedAtFloor(void){
 	activateOrdering();
-	printf("Ordering allowed\n");
 	elev_set_stop_lamp(0);
 	state = STATE_STOP_BUTTON_RELEASED_AT_FLOOR;
 	printf("Entering state STATE_STOP_BUTTON_RELEASED_AT_FLOOR\n");
@@ -68,7 +67,6 @@ void fsm_evStopButtonReleasedAtFloor(void){
 
 void fsm_evStopButtonReleasedBetweenFloors(void){
 	activateOrdering();
-	printf("Ordering allowed\n");
 	elev_set_stop_lamp(0);
 	state = STATE_STOP_BUTTON_RELEASED_BETWEEN_FLOORS;
 	printf("Entering state STATE_STOP_BUTTON_RELEASED_BETWEEN_FLOORS\n");
@@ -96,11 +94,14 @@ void fsm_evReadyToCheckActions(void){
 		}
 	}
 
-	unsigned int dir = getCurrentDirection();
+	int dir = getCurrentDirection();
 	//Any request to get off, or on in current direction here?
 	if (elev_get_floor_sensor_signal() != -1){
 		unsigned int currentFloor = getLastFloorVisited();
-		if(getElevPanelFlag(currentFloor) || getFloorPanelFlag(currentFloor,dir)){
+		if((getElevPanelFlag(currentFloor) == true) || (getFloorPanelFlag(currentFloor,dir) == true)){
+			printf("dir = %d\n",dir);
+			printf("getElevPanelFlag(currentFloor) = %d\n", getElevPanelFlag(currentFloor));
+			printf("getFloorPanelFlag(currentFloor,dir) = %d\n",getFloorPanelFlag(currentFloor,dir));
 			elev_set_motor_direction(DIRN_STOP);
 			elev_set_door_open_lamp(1);
 			deleteFloorOrders(currentFloor);
@@ -119,6 +120,7 @@ void fsm_evReadyToCheckActions(void){
 		if (dir == 1){
 			for (int i = getLastFloorVisited()+1; i < NFLOORS; i++){
 				if(getElevPanelFlag(i) || getFloorPanelFlag(i,UP) || getFloorPanelFlag(i,DOWN)){
+					saveDirectionWhenLeavingFloor(dir);
 					elev_set_motor_direction(dir);
 					state = STATE_CONTINUE_MOVING;
 					printf("Entering state STATE_CONTINUE_MOVING\n");
@@ -129,6 +131,7 @@ void fsm_evReadyToCheckActions(void){
 		else{
 			for(int i = getLastFloorVisited()-1; i >= 0; i--){
 				if(getElevPanelFlag(i) || getFloorPanelFlag(i,UP) || getFloorPanelFlag(i,DOWN)){
+					saveDirectionWhenLeavingFloor(dir);
 					elev_set_motor_direction(dir);
 					state = STATE_CONTINUE_MOVING;
 					printf("Entering state STATE_CONTINUE_MOVING\n");
@@ -179,7 +182,8 @@ void fsm_evReadyToCheckActions(void){
 			//Current direction is down
 			else{
 				for(int i = lastFloor-1; i >= 0; i--){
-					if(getElevPanelFlag(i) || getFloorPanelFlag(i,UP) || getFloorPanelFlag(i,DOWN)){
+					if(getElevPanelFlag(i) || getFloorPanelFlag(i,UP) || getFloorPanelFlag(i,DOWN)){					
+
 						elev_set_motor_direction(dir);
 						state = STATE_CONTINUE_MOVING;
 						printf("Entering state STATE_CONTINUE_MOVING\n");
@@ -287,6 +291,7 @@ void fsm_evReadyToCheckActions(void){
 			return;
 		}		
 	}
+	state = STATE_CHECK_ELEVATOR_ACTIONS;
 }
 
 

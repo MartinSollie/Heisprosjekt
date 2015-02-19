@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "elevPositionData.h"
 
 static int currentDirection;
@@ -30,7 +31,7 @@ void invertCurrentDirection(void){
 	else{
 		currentDirection = 1;
 	}
-	printf("Inverting direction\n");
+	printf("Inverting direction, current dir = %d\n",currentDirection);
 
 }
 

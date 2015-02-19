@@ -19,27 +19,30 @@ bool getElevPanelFlag(unsigned int floor){
 }
 
 void addElevPanelOrder(unsigned int floor){
-	if(!elevPanelFlags[floor]){
+	if(!elevPanelFlags[floor] && (orderingAllowed == true)){
 		elevPanelFlags[floor] = true;
 		printf("ElevPanelOrder added for floor %d \n", floor);
 	}
 	
 }
 void addFloorPanelOrder(unsigned int floor, int direction){
-	if (direction == 1 && !floorPanelFlags[floor][0]){
+	if (direction == 1 && (floorPanelFlags[floor][0] == false) && (orderingAllowed == true)){
 		floorPanelFlags[floor][0] = true;
+		printf("FloorPanelOrder added for floor %d, ", floor);
+		printf("in direction %d \n", direction);
 	}
-	else if(!floorPanelFlags[floor][1]){
+	else if(direction == -1 && (floorPanelFlags[floor][1] == false) && (orderingAllowed == true)){
 		floorPanelFlags[floor][1] = true;
+		printf("FloorPanelOrder added for floor %d, ", floor);
+		printf("in direction %d \n", direction);
 	}
-	printf("FloorPanelOrder added for floor %d, ", floor);
-	printf("in direction %d \n", direction);
+	
 }
 
 void deleteFloorOrders(unsigned int floor){
-	elevPanelFlags[floor] = 0;
-	floorPanelFlags[floor][0] = 0;
-	floorPanelFlags[floor][1] = 0;
+	elevPanelFlags[floor] = false;
+	floorPanelFlags[floor][0] = false;
+	floorPanelFlags[floor][1] = false;
 	printf("Orders deleted for floor %d \n", floor);
 }
 
