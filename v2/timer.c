@@ -30,7 +30,7 @@ void timer_stop(){
 }
 
 bool timer_isTimeOut(){
-	if(start_seconds < 0 || start_nanoseconds < 0){
+	if((start_seconds < 0) || (start_nanoseconds < 0)){
 		// There is no timeout, because the timer is not started
 		return false;
 	}
@@ -39,11 +39,11 @@ bool timer_isTimeOut(){
 	unsigned long int nanoseconds = ts.tv_nsec;
 	long int diff_seconds = seconds - start_seconds;
 	long int diff_nanoseconds = nanoseconds - start_nanoseconds;
-	if(((diff_seconds >= 3) && (diff_nanoseconds > 0))){
+	if((diff_seconds >= 3) && (diff_nanoseconds > 0)){
 		printf("Time is out. Time elapsed: %lu.",diff_seconds);
 		printf("%09lu seconds.\n",diff_nanoseconds);
 		return true;
-	};
+	}
 	return false;
 
 

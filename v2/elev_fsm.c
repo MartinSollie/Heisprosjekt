@@ -38,9 +38,11 @@ void fsm_evSystemStarted(void){
 
 void fsm_evStopButtonPressed(void){
 	elev_set_motor_direction(DIRN_STOP);
+	printf("Stopping motor\n");
 	elev_set_stop_lamp(1);
 	if(elev_get_floor_sensor_signal() != -1){
 		elev_set_door_open_lamp(1);
+		printf("Opening door\n");
 	}
 	deactivateAndDeleteOrders();
 	for(int i = 0; i < NFLOORS; i++){
@@ -48,6 +50,7 @@ void fsm_evStopButtonPressed(void){
 		if(i != 0){elev_set_button_lamp(BUTTON_CALL_DOWN, i, 0);}
 		if(i != NFLOORS-1){elev_set_button_lamp(BUTTON_CALL_UP, i, 0);}
 	}
+	printf("Deleted all orders, deactivated ordering\n");
 	if(state == STATE_CHECK_ELEVATOR_ACTIONS || state == STATE_CONTINUE_MOVING){
 		timer_start();
 	}
@@ -57,6 +60,7 @@ void fsm_evStopButtonPressed(void){
 
 void fsm_evStopButtonReleasedAtFloor(void){
 	activateOrdering();
+	printf("Ordering allowed\n");
 	elev_set_stop_lamp(0);
 	state = STATE_STOP_BUTTON_RELEASED_AT_FLOOR;
 	printf("Entering state STATE_STOP_BUTTON_RELEASED_AT_FLOOR\n");
@@ -64,6 +68,7 @@ void fsm_evStopButtonReleasedAtFloor(void){
 
 void fsm_evStopButtonReleasedBetweenFloors(void){
 	activateOrdering();
+	printf("Ordering allowed\n");
 	elev_set_stop_lamp(0);
 	state = STATE_STOP_BUTTON_RELEASED_BETWEEN_FLOORS;
 	printf("Entering state STATE_STOP_BUTTON_RELEASED_BETWEEN_FLOORS\n");
@@ -100,8 +105,8 @@ void fsm_evReadyToCheckActions(void){
 			elev_set_door_open_lamp(1);
 			deleteFloorOrders(currentFloor);
 			elev_set_button_lamp(BUTTON_COMMAND, currentFloor, 0);
-			elev_set_button_lamp(BUTTON_CALL_UP, currentFloor, 0);
-			elev_set_button_lamp(BUTTON_CALL_DOWN, currentFloor, 0);
+			if(currentFloor != NFLOORS-1){elev_set_button_lamp(BUTTON_CALL_UP, currentFloor, 0);}
+			if(currentFloor != 0){elev_set_button_lamp(BUTTON_CALL_DOWN, currentFloor, 0);}
 			timer_start();
 			state = STATE_ELEVATOR_OPEN;
 			return;
@@ -116,6 +121,7 @@ void fsm_evReadyToCheckActions(void){
 				if(getElevPanelFlag(i) || getFloorPanelFlag(i,UP) || getFloorPanelFlag(i,DOWN)){
 					elev_set_motor_direction(dir);
 					state = STATE_CONTINUE_MOVING;
+					printf("Entering state STATE_CONTINUE_MOVING\n");
 					return;
 				}
 			}
@@ -125,6 +131,7 @@ void fsm_evReadyToCheckActions(void){
 				if(getElevPanelFlag(i) || getFloorPanelFlag(i,UP) || getFloorPanelFlag(i,DOWN)){
 					elev_set_motor_direction(dir);
 					state = STATE_CONTINUE_MOVING;
+					printf("Entering state STATE_CONTINUE_MOVING\n");
 					return;
 				}
 			}
@@ -141,6 +148,7 @@ void fsm_evReadyToCheckActions(void){
 					if(getElevPanelFlag(i) || getFloorPanelFlag(i,UP) || getFloorPanelFlag(i,DOWN)){
 						elev_set_motor_direction(dir);
 						state = STATE_CONTINUE_MOVING;
+						printf("Entering state STATE_CONTINUE_MOVING\n");
 						return;
 					}
 				}
@@ -150,6 +158,7 @@ void fsm_evReadyToCheckActions(void){
 					if(getElevPanelFlag(i) || getFloorPanelFlag(i,UP) || getFloorPanelFlag(i,DOWN)){
 						elev_set_motor_direction(dir);
 						state = STATE_CONTINUE_MOVING;
+						printf("Entering state STATE_CONTINUE_MOVING\n");
 						return;
 					}
 				}
@@ -162,6 +171,7 @@ void fsm_evReadyToCheckActions(void){
 					if(getElevPanelFlag(i) || getFloorPanelFlag(i,UP) || getFloorPanelFlag(i,DOWN)){
 						elev_set_motor_direction(dir);
 						state = STATE_CONTINUE_MOVING;
+						printf("Entering state STATE_CONTINUE_MOVING\n");
 						return;
 					}
 				}
@@ -172,6 +182,7 @@ void fsm_evReadyToCheckActions(void){
 					if(getElevPanelFlag(i) || getFloorPanelFlag(i,UP) || getFloorPanelFlag(i,DOWN)){
 						elev_set_motor_direction(dir);
 						state = STATE_CONTINUE_MOVING;
+						printf("Entering state STATE_CONTINUE_MOVING\n");
 						return;
 					}
 				}
@@ -187,6 +198,7 @@ void fsm_evReadyToCheckActions(void){
 			if(getFloorPanelFlag(lastFloor,-1)){
 				invertCurrentDirection();
 				state = STATE_CHECK_ELEVATOR_ACTIONS;
+				printf("Entering state STATE_CHECK_ELEVATOR_ACTIONS\n");
 				return;
 			}
 			else{
@@ -200,6 +212,7 @@ void fsm_evReadyToCheckActions(void){
 				if (orderFound == true){
 					invertCurrentDirection();
 					state = STATE_CHECK_ELEVATOR_ACTIONS;
+					printf("Entering state STATE_CHECK_ELEVATOR_ACTIONS\n");
 					return;
 				}
 			}
@@ -210,6 +223,7 @@ void fsm_evReadyToCheckActions(void){
 			if(getFloorPanelFlag(lastFloor,1)){
 				invertCurrentDirection();
 				state = STATE_CHECK_ELEVATOR_ACTIONS;
+				printf("Entering state STATE_CHECK_ELEVATOR_ACTIONS\n");
 				return;
 			}
 			else{
@@ -223,6 +237,7 @@ void fsm_evReadyToCheckActions(void){
 				if (orderFound == true){
 					invertCurrentDirection();
 					state = STATE_CHECK_ELEVATOR_ACTIONS;
+					printf("Entering state STATE_CHECK_ELEVATOR_ACTIONS\n");
 					return;
 				}
 			}
@@ -268,6 +283,7 @@ void fsm_evReadyToCheckActions(void){
 		if (orderFound == true){
 			invertCurrentDirection();
 			state = STATE_CHECK_ELEVATOR_ACTIONS;
+			printf("Entering state STATE_CHECK_ELEVATOR_ACTIONS\n");
 			return;
 		}		
 	}
@@ -276,8 +292,10 @@ void fsm_evReadyToCheckActions(void){
 
 void fsm_evTimeOut(void){
 	elev_set_door_open_lamp(0);
+	printf("Closing door.\n");
 	timer_stop();
 	state = STATE_CHECK_ELEVATOR_ACTIONS;
+	printf("Entering state STATE_CHECK_ELEVATOR_ACTIONS (ref:timeout)\n");
 }
 
 
@@ -285,5 +303,7 @@ void fsm_evNextFloorReached(void){
 	int floorSignal = elev_get_floor_sensor_signal();
 	elev_set_floor_indicator(floorSignal);
 	setLastFloorVisited(floorSignal);
+	printf("Setting last floor to %d\n", floorSignal);
 	state = STATE_CHECK_ELEVATOR_ACTIONS;
+	printf("Entering state STATE_CHECK_ELEVATOR_ACTIONS (ref:nextfloor)\n");
 }

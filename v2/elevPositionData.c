@@ -30,6 +30,7 @@ void invertCurrentDirection(void){
 	else{
 		currentDirection = 1;
 	}
+	printf("Inverting direction\n");
 
 }
 
