@@ -38,6 +38,7 @@ void fsm_evSystemStarted(void){
 
 void fsm_evStopButtonPressed(void){
 	elev_set_motor_direction(DIRN_STOP);
+	elev_set_stop_lamp(1);
 	if(elev_get_floor_sensor_signal() != -1){
 		elev_set_door_open_lamp(1);
 	}
@@ -51,12 +52,14 @@ void fsm_evStopButtonPressed(void){
 
 void fsm_evStopButtonReleasedAtFloor(void){
 	activateOrdering();
+	elev_set_stop_lamp(0);
 	state = STATE_STOP_BUTTON_RELEASED_AT_FLOOR;
 	printf("Entering state STATE_STOP_BUTTON_RELEASED_AT_FLOOR\n");
 }
 
 void fsm_evStopButtonReleasedBetweenFloors(void){
 	activateOrdering();
+	elev_set_stop_lamp(0);
 	state = STATE_STOP_BUTTON_RELEASED_BETWEEN_FLOORS;
 	printf("Entering state STATE_STOP_BUTTON_RELEASED_BETWEEN_FLOORS\n");
 
