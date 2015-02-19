@@ -43,6 +43,11 @@ void fsm_evStopButtonPressed(void){
 		elev_set_door_open_lamp(1);
 	}
 	deactivateAndDeleteOrders();
+	for(int i = 0; i < NFLOORS; i++){
+		elev_set_button_lamp(BUTTON_COMMAND, floor, 0);
+		if(i != 0){elev_set_button_lamp(BUTTON_CALL_DOWN, floor, 0);}
+		if(i != NFLOORS-1){elev_set_button_lamp(BUTTON_CALL_UP, floor, 0);}
+	}
 	if(state == STATE_CHECK_ELEVATOR_ACTIONS || state == STATE_CONTINUE_MOVING){
 		timer_start();
 	}
@@ -93,6 +98,10 @@ void fsm_evCheckOrders(void){
 		if(getElevPanelFlag(currentFloor) || getFloorPanelFlag(currentFloor,dir)){
 			elev_set_motor_direction(DIRN_STOP);
 			elev_set_door_open_lamp(1);
+			deleteFloorOrders(currentFloor);
+			elev_set_button_lamp(BUTTON_COMMAND, currentFloor, 0);
+			elev_set_button_lamp(BUTTON_CALL_UP, currentFloor, 0);
+			elev_set_button_lamp(BUTTON_CALL_DOWN, currentFloor, 0);
 			timer_start();
 			state = STATE_ELEVATOR_OPEN;
 			return;
