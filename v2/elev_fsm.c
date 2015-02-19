@@ -44,9 +44,9 @@ void fsm_evStopButtonPressed(void){
 	}
 	deactivateAndDeleteOrders();
 	for(int i = 0; i < NFLOORS; i++){
-		elev_set_button_lamp(BUTTON_COMMAND, floor, 0);
-		if(i != 0){elev_set_button_lamp(BUTTON_CALL_DOWN, floor, 0);}
-		if(i != NFLOORS-1){elev_set_button_lamp(BUTTON_CALL_UP, floor, 0);}
+		elev_set_button_lamp(BUTTON_COMMAND, i, 0);
+		if(i != 0){elev_set_button_lamp(BUTTON_CALL_DOWN, i, 0);}
+		if(i != NFLOORS-1){elev_set_button_lamp(BUTTON_CALL_UP, i, 0);}
 	}
 	if(state == STATE_CHECK_ELEVATOR_ACTIONS || state == STATE_CONTINUE_MOVING){
 		timer_start();
