@@ -18,20 +18,20 @@ int main(void){
     	for (int i = 0; i < N_FLOORS; i++){
     		if(elev_get_button_signal(BUTTON_COMMAND, i)){
     			addElevPanelOrder(i);
-                if(orderingAllowed){elev_set_button_lamp(BUTTON_COMMAND, i, 1);}
+                if(getElevPanelFlag(i)){elev_set_button_lamp(BUTTON_COMMAND, i, 1);}
                 //printf("Detected command button press %d\n",i);
     		}
     		if(i != 0){
     			if(elev_get_button_signal(BUTTON_CALL_DOWN, i)){
     				addFloorPanelOrder(i, -1);
-                    if(orderingAllowed){elev_set_button_lamp(BUTTON_CALL_DOWN, i, 1);}
+                    if(getFloorPanelFlag(i,-1)){elev_set_button_lamp(BUTTON_CALL_DOWN, i, 1);}
                     //printf("Detected DOWN button press %d\n",i);
     			}
     		}
     		if(i != N_FLOORS-1){
     			if(elev_get_button_signal(BUTTON_CALL_UP, i)){
-    				addFloorPanelOrder(i, 1);
-                    if(orderingAllowed){elev_set_button_lamp(BUTTON_CALL_UP, i, 1);}
+    				addFloorPanelOrder(i,1);
+                    if(getFloorPanelFlag(i,1)){elev_set_button_lamp(BUTTON_CALL_UP, i, 1);}
                     //printf("Detected UP button press %d\n",i);
     			}
     		}
