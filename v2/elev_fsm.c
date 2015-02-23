@@ -76,6 +76,7 @@ void fsm_evStopButtonReleasedBetweenFloors(void){
 void fsm_evReadyToCheckActions(void){
 	if (state == STATE_STOP_BUTTON_RELEASED_AT_FLOOR){
 		if(timer_isTimeOut()){
+			elev_set_door_open_lamp(0);
 			timer_stop();
 		}
 		else{
