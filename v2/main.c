@@ -7,20 +7,22 @@
 #include "elev.h"
 
 int main(void){
-	// Initialize hardware
+	// Initialize elevator hardware
     if (!elev_init()) {
         printf("Unable to initialize elevator hardware!\n");
         return 1;
     }
 
     fsm_evSystemStarted();
+
+    // Variables preventing button holding from continuosly adding new orders
     bool btn_cmd[N_FLOORS] = {0};
     bool btn_up[N_FLOORS-1] = {0};
     bool btn_down[N_FLOORS-1] = {0};
 
     while(1){
-    	//Poll buttons and add orders
 
+    	//Poll buttons and add orders
     	for (int i = 0; i < N_FLOORS; i++){
     		if(elev_get_button_signal(BUTTON_COMMAND, i) && btn_cmd[i] == false){
     			addElevPanelOrder(i);
@@ -31,6 +33,8 @@ int main(void){
             else{
                 btn_cmd[i] = false;
             }
+
+
     		if(i != 0){
     			if(elev_get_button_signal(BUTTON_CALL_DOWN, i) && btn_down[i-1] == false){
     				addFloorPanelOrder(i, -1);
@@ -54,11 +58,12 @@ int main(void){
                     btn_up[i] = false;
                 }
     		}
-
-
     	}
 
 
+        // Handle events:
+
+        // If stop button is still being held, do nothing
     	if (fsm_getCurrentState() != STATE_STOP_BUTTON_PRESSED){
     		if(elev_get_stop_signal()){
     			fsm_evStopButtonPressed();

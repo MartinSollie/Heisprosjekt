@@ -12,6 +12,7 @@ state_t fsm_getCurrentState(void){
 	return state;
 }
 
+// Initialization event
 void fsm_evSystemStarted(void){
 	printf("Entered elevator init function\n");	
 	setCurrentDirection(UP);
