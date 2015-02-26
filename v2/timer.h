@@ -3,7 +3,6 @@
 
 #include <stdbool.h>
 
-
 void timer_start();
 void timer_stop();
 bool timer_isTimeOut();

@@ -1,23 +1,16 @@
-//Enable POSIX definitions when compiling with C99.
-//#if __STDC_VERSION__ >= 199901L
-//#define _XOPEN_SOURCE 600
-//#else
-//#define _XOPEN_SOURCE 500
-//#endif /* __STDC_VERSION__ */
-
 #include "timer.h"
 #include <time.h>
 #include <assert.h>
 #include <stdio.h>
 
 static long int start_seconds = -1;
-static long int start_nanoseconds = -1; // number of nanoseconds into last whole second
-static struct timespec ts;
+static long int start_nanoseconds = -1;
+static struct timespec ts; // Structure declared in time.h, members are tv_sec and tv_nsec
 
 void timer_start(){
-	clock_gettime(CLOCK_REALTIME, &ts); //this works only in Linux!
-	start_seconds = ts.tv_sec;
-	start_nanoseconds = ts.tv_nsec; 
+	clock_gettime(CLOCK_REALTIME, &ts); // Retrieves Unix time to struct ts
+	start_seconds = ts.tv_sec; // Seconds since Unix epoch (jan. 1, 1970)
+	start_nanoseconds = ts.tv_nsec; // Nanoseconds expired in the current second
 	assert(start_seconds != -1);
 	assert(start_nanoseconds != -1);
 	printf("Timer started.\n ");
@@ -31,20 +24,17 @@ void timer_stop(){
 
 bool timer_isTimeOut(){
 	if((start_seconds < 0) || (start_nanoseconds < 0)){
-		//There is no timeout, because the timer is not started
-		return false;
+		return false; // There is no timeout, because the timer is not started
 	}
 	clock_gettime(CLOCK_REALTIME, &ts);
 	long int seconds = ts.tv_sec;
 	long int nanoseconds = ts.tv_nsec;
 	long int diff_seconds = seconds - start_seconds;
 	long int diff_nanoseconds = nanoseconds - start_nanoseconds;
-	if((diff_seconds >= 3) && (diff_nanoseconds > 0)){
+	if((diff_seconds >= 3) && (diff_nanoseconds > 0)){ // If more than 3 seconds has passed
 		printf("Time is out. Time elapsed: %ld.",diff_seconds);
 		printf("%09ld seconds.\n",diff_nanoseconds);
 		return true;
 	}
 	return false;
-
-
 }

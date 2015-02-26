@@ -5,7 +5,7 @@ static bool orderingAllowed = true;
 static bool elevPanelFlags[NFLOORS] = {0};
 static bool floorPanelFlags[NFLOORS][NDIRECTIONS] = {{0}}; 
 
-bool getFloorPanelFlag(unsigned int floor, int direction){
+bool order_getFloorPanelFlag(unsigned int floor, int direction){
 	if (direction == 1){
 		return floorPanelFlags[floor][0];
 	}
@@ -14,18 +14,18 @@ bool getFloorPanelFlag(unsigned int floor, int direction){
 	}
 }
 
-bool getElevPanelFlag(unsigned int floor){
+bool order_getElevPanelFlag(unsigned int floor){
 	return elevPanelFlags[floor];
 }
 
-void addElevPanelOrder(unsigned int floor){
+void order_addElevPanelOrder(unsigned int floor){
 	if(!elevPanelFlags[floor] && (orderingAllowed == true)){
 		elevPanelFlags[floor] = true;
 		printf("ElevPanelOrder added for floor %d \n", floor);
 	}
 	
 }
-void addFloorPanelOrder(unsigned int floor, int direction){
+void order_addFloorPanelOrder(unsigned int floor, int direction){
 	if (direction == 1 && (floorPanelFlags[floor][0] == false) && (orderingAllowed == true)){
 		floorPanelFlags[floor][0] = true;
 		printf("FloorPanelOrder added for floor %d, ", floor);
@@ -39,14 +39,14 @@ void addFloorPanelOrder(unsigned int floor, int direction){
 	
 }
 
-void deleteFloorOrders(unsigned int floor){
+void order_deleteFloorOrders(unsigned int floor){
 	elevPanelFlags[floor] = false;
 	floorPanelFlags[floor][0] = false;
 	floorPanelFlags[floor][1] = false;
 	printf("Orders deleted for floor %d \n", floor);
 }
 
-void deactivateAndDeleteOrders(void){
+void order_deactivateAndDeleteOrders(void){
 	orderingAllowed = false;
 	for(int i = 0; i < NFLOORS; i++){
 		deleteFloorOrders(i);
@@ -54,7 +54,7 @@ void deactivateAndDeleteOrders(void){
 	printf("Orders are not allowed \n");
 }
 
-void activateOrdering(void){
+void order_activateOrdering(void){
 	orderingAllowed = true;
-	printf("Orders are now allowed \n");
+	printf("Orders are allowed \n");
 }

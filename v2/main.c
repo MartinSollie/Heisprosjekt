@@ -30,9 +30,9 @@ int main(void){
 
             // Check elevator panel buttons for all floors
     		if(elev_get_button_signal(BUTTON_COMMAND, i) && (buttonCommandBlocked[i] == false)){
-    			addElevPanelOrder(i);
+    			order_addElevPanelOrder(i);
                 buttonCommandBlocked[i] = true; // Block new presses until button has been released
-                if(getElevPanelFlag(i)){elev_set_button_lamp(BUTTON_COMMAND, i, 1);}
+                if(order_getElevPanelFlag(i)){elev_set_button_lamp(BUTTON_COMMAND, i, 1);}
     		}
             else if (!elev_get_button_signal(BUTTON_COMMAND, i)){
                 buttonCommandBlocked[i] = false; //Button is released, allow new press
@@ -41,9 +41,9 @@ int main(void){
             // Check floor panel buttons in direction down for all floors except ground floor
     		if(i != 0){
     			if(elev_get_button_signal(BUTTON_CALL_DOWN, i) && (buttonDownBlocked[i-1] == false)){
-    				addFloorPanelOrder(i, -1);
+    				order_addFloorPanelOrder(i, -1);
                     buttonDownBlocked[i-1] = true;
-                    if(getFloorPanelFlag(i,-1)){elev_set_button_lamp(BUTTON_CALL_DOWN, i, 1);}
+                    if(order_getFloorPanelFlag(i,-1)){elev_set_button_lamp(BUTTON_CALL_DOWN, i, 1);}
                     //printf("Detected DOWN button press %d\n",i);
     			}
                 else if (!elev_get_button_signal(BUTTON_CALL_DOWN, i)){
@@ -54,9 +54,9 @@ int main(void){
             // Check floor panel buttons in direction up for all floors except top floor
     		if(i != N_FLOORS-1){
     			if(elev_get_button_signal(BUTTON_CALL_UP, i) && (buttonUpBlocked[i] == false)){
-    				addFloorPanelOrder(i,1);
+    				order_addFloorPanelOrder(i,1);
                     buttonUpBlocked[i] = true;
-                    if(getFloorPanelFlag(i,1)){elev_set_button_lamp(BUTTON_CALL_UP, i, 1);}
+                    if(order_getFloorPanelFlag(i,1)){elev_set_button_lamp(BUTTON_CALL_UP, i, 1);}
                     //printf("Detected UP button press %d\n",i);
     			}
                 else if (!elev_get_button_signal(BUTTON_CALL_UP, i)){

@@ -7,39 +7,37 @@ static unsigned int lastFloorVisited;
 
 
 
-int getDirectionWhenLeavingLastFloor(void){
+int pos_getDirectionWhenLeavingLastFloor(void){
 	return directionWhenLeavingLastFloor;
 }
 
-void saveDirectionWhenLeavingFloor(int direction){
+void pos_saveDirectionWhenLeavingFloor(int direction){
 	directionWhenLeavingLastFloor = direction;
 }
 
 
-int getCurrentDirection(void){
+int pos_getCurrentDirection(void){
 	return currentDirection;
 }
 
-void setCurrentDirection(int direction){
+void pos_setCurrentDirection(int direction){
 	currentDirection = direction;
 }
 
-void invertCurrentDirection(void){
+void pos_invertCurrentDirection(void){
 	if(currentDirection == 1){
 		currentDirection = -1;
 	}
 	else{
 		currentDirection = 1;
 	}
-	printf("Inverting direction, current dir = %d\n",currentDirection);
-
 }
 
 
-unsigned int getLastFloorVisited(void){
+unsigned int pos_getLastFloorVisited(void){
 	return lastFloorVisited;
 }
 
-void setLastFloorVisited(int floor){
+void pos_setLastFloorVisited(unsigned int floor){
 	lastFloorVisited = floor;
 }
