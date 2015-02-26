@@ -1,5 +1,5 @@
 # Which compiler to use
-CC = c99
+CC = clang
 
 # Compiler flags go here.
 CFLAGS = -g -Wall
