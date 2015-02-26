@@ -14,19 +14,14 @@ state_t fsm_getCurrentState(void){
 
 // Initialization event
 void fsm_evSystemStarted(void){
-	printf("Entered elevator init function\n");	
 	setCurrentDirection(UP);
 	int floorSignal = elev_get_floor_sensor_signal();
-	printf("Init floorSignal = %d \n",floorSignal);
 	if (floorSignal == -1){ // If between floors
-		printf("Starting motor\n");
-		printf("getCurrentDirection returns %d \n",getCurrentDirection());
 		elev_set_motor_direction(getCurrentDirection());
 		//Stop when a floor is reached
 		while(floorSignal == -1){
 			floorSignal = elev_get_floor_sensor_signal();
 			if(floorSignal != -1){
-				printf("Stopping motor\n");
 				elev_set_motor_direction(DIRN_STOP);
 			}
 		}
