@@ -49,7 +49,7 @@ void order_deleteFloorOrders(unsigned int floor){
 void order_deactivateAndDeleteOrders(void){
 	orderingAllowed = false;
 	for(int i = 0; i < NFLOORS; i++){
-		deleteFloorOrders(i);
+		order_deleteFloorOrders(i);
 	}
 	printf("Orders are not allowed \n");
 }
