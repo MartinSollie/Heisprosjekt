@@ -12,7 +12,6 @@ void pos_setCurrentDirection(int direction);
 void pos_invertCurrentDirection(void); // If the direction is up, set it to down and vice versa
 
 
-
 /**
 	Floors indexed from 0 to 3
 */

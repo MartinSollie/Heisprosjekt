@@ -1,11 +1,9 @@
 #include <stdio.h>
 #include "elevPositionData.h"
 
-static int currentDirection;
+static int currentDirection; // Current defined direction used for controlling elevator movement.
 static int directionWhenLeavingLastFloor;
 static unsigned int lastFloorVisited;
-
-
 
 int pos_getDirectionWhenLeavingLastFloor(void){
 	return directionWhenLeavingLastFloor;

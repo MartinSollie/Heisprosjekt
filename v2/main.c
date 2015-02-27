@@ -101,7 +101,7 @@ int main(void){
 					fsm_evTimeOut();
 				}
 				break;
-			case(STATE_CONTINUE_MOVING):{
+			case(STATE_MOVING):{
                 // Check if a floor is reached:
                 // Must be a different floor than the last floor reached, unless direction is inverted
 				int floor = elev_get_floor_sensor_signal();

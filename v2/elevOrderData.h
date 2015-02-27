@@ -6,16 +6,20 @@
 
 #include <stdbool.h>
 
+// Floors are indexed from 0 to 3
 
-bool order_getFloorPanelFlag(unsigned int floor, int direction); // Outside elevator
-bool order_getElevPanelFlag(unsigned int floor); // Inside elevator
-
-void order_addElevPanelOrder(unsigned int floor);
+// Order flags for buttons outside elevator
+bool order_getFloorPanelFlag(unsigned int floor, int direction); 
 void order_addFloorPanelOrder(unsigned int floor, int direction);
 
-void order_deleteFloorOrders(unsigned int floor); // Clears all orders for the given floor
+// Order flags for buttons inside elevator
+bool order_getElevPanelFlag(unsigned int floor);
+void order_addElevPanelOrder(unsigned int floor);
 
-void order_deactivateAndDeleteOrders(void); // Deletes all orders, and blocks any new orders
-void order_activateOrdering(void); // Allow new orders
+
+void order_deleteFloorOrders(unsigned int floor); // Clear all flags for the parameter floor
+
+void order_disableAndDeleteOrders(void); // Deletes all orders, and blocks any new orders
+void order_enableOrdering(void); // Allow new orders
 
 #endif
