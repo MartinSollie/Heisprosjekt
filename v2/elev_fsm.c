@@ -223,7 +223,7 @@ void fsm_evReadyToCheckActions(void){
 		unsigned int lastFloor = pos_getLastFloorVisited();
 
 		for(int i = lastFloor; dir == 1 ? (i >= 0) : (i < NFLOORS); i -= dir){
-			if (i != lastFloor && (order_getElevPanelFlag(i) || order_getFloorPanelFlag(i,UP) || order_getFloorPanelFlag(i,DOWN)) || i == lastFloor && order_getFloorPanelFlag(i,-dir)){
+			if ((i != lastFloor && (order_getElevPanelFlag(i) || order_getFloorPanelFlag(i,UP) || order_getFloorPanelFlag(i,DOWN))) || (i == lastFloor && order_getFloorPanelFlag(i,-dir))){
 				pos_invertCurrentDirection();
 				state = STATE_CHECK_ELEVATOR_ACTIONS;
 				return;
