@@ -22,7 +22,7 @@ void fsm_evStopButtonPressed(void);
 void fsm_evStopButtonReleasedAtFloor(void);
 void fsm_evStopButtonReleasedBetweenFloors(void);
 void fsm_evReadyToCheckActions(void); /////////CHANGE TO: fsm_evCheckElevActions()
-void fsm_evTimeOut(void);
+void fsm_evTimeOut(void); // Door has been open 3 seconds
 void fsm_evNextFloorReached(void);
 
 #endif

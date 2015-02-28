@@ -221,6 +221,16 @@ void fsm_evReadyToCheckActions(void){
 	//Any request behind, or in opposite direction here?
 	if(elev_get_floor_sensor_signal() != -1){ //Elevator is at floor
 		unsigned int lastFloor = pos_getLastFloorVisited();
+
+		for(int i = lastFloor; dir == 1 ? (i >= 0) : (i < NFLOORS); i -= dir){
+			if (i != lastFloor && (order_getElevPanelFlag(i) || order_getFloorPanelFlag(i,UP) || order_getFloorPanelFlag(i,DOWN)) || i == lastFloor && order_getFloorPanelFlag(i,-dir)){
+				pos_invertCurrentDirection();
+				state = STATE_CHECK_ELEVATOR_ACTIONS;
+				return;
+			}
+		}
+
+		/*
 		if (dir == 1){ //Current direction is up
 			//Checking if there are orders heading down on current floor
 			if(order_getFloorPanelFlag(lastFloor,-1)){
@@ -265,13 +275,25 @@ void fsm_evReadyToCheckActions(void){
 					return;
 				}
 			}
-		}
+		}*/
 	}
 	else{ //Elevator is between floors after releasing stop button
 		// check for orders in opposite direction
-		bool orderFound = false;
+		////bool orderFound = false;
 		int lastDir = pos_getDirectionWhenLeavingLastFloor();
 		unsigned int lastFloor = pos_getLastFloorVisited();
+		unsigned int countFromFloor = (lastDir - dir)/2;
+
+		for (int i = countFromFloor; dir == 1 ? (i >= 0) : (i < NFLOORS); i -= dir){
+			if (order_getElevPanelFlag(i) || order_getFloorPanelFlag(i,UP) || order_getFloorPanelFlag(i,DOWN)){
+				pos_invertCurrentDirection();
+				state = STATE_CHECK_ELEVATOR_ACTIONS;
+				return;				
+			}
+		}
+
+
+		/*
 		if(lastDir == 1){
 			if (dir == 1){ //check below
 				for (int i = lastFloor; i >= 0; i--){
@@ -308,7 +330,8 @@ void fsm_evReadyToCheckActions(void){
 			pos_invertCurrentDirection();
 			state = STATE_CHECK_ELEVATOR_ACTIONS;
 			return;
-		}		
+		}	
+		*/	
 	}
 	state = STATE_CHECK_ELEVATOR_ACTIONS;
 }
