@@ -44,7 +44,6 @@ int main(void){
     				order_addFloorPanelOrder(i, -1);
                     buttonDownBlocked[i-1] = true;
                     if(order_getFloorPanelFlag(i,-1)){elev_set_button_lamp(BUTTON_CALL_DOWN, i, 1);}
-                    //printf("Detected DOWN button press %d\n",i);
     			}
                 else if (!elev_get_button_signal(BUTTON_CALL_DOWN, i)){
                     buttonDownBlocked[i-1] = false;
@@ -57,7 +56,6 @@ int main(void){
     				order_addFloorPanelOrder(i,1);
                     buttonUpBlocked[i] = true;
                     if(order_getFloorPanelFlag(i,1)){elev_set_button_lamp(BUTTON_CALL_UP, i, 1);}
-                    //printf("Detected UP button press %d\n",i);
     			}
                 else if (!elev_get_button_signal(BUTTON_CALL_UP, i)){
                     buttonUpBlocked[i] = false;

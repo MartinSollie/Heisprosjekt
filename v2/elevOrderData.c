@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <assert.h>
 #include "elevOrderData.h"
 
 static bool orderingAllowed = true;
@@ -19,16 +19,19 @@ bool order_getElevPanelFlag(unsigned int floor){
 }
 
 void order_addElevPanelOrder(unsigned int floor){
-	if(!elevPanelFlags[floor] && orderingAllowed){ //(orderingAllowed == true)
+	if(!elevPanelFlags[floor] && orderingAllowed){
 		elevPanelFlags[floor] = true;
 	}
 }
 
 void order_addFloorPanelOrder(unsigned int floor, int direction){
-	if (direction == 1 && orderingAllowed){ //(floorPanelFlags[floor][0] == false) && (orderingAllowed == true))
+	assert(floor != 0 && direction != -1);
+	assert(floor != NFLOORS-1 && direction != 1);
+
+	if (direction == 1 && orderingAllowed){
 		floorPanelFlags[floor][0] = true;
 	}
-	else if(direction == -1 && orderingAllowed){ //(floorPanelFlags[floor][1] == false) && (orderingAllowed == true)
+	else if(direction == -1 && orderingAllowed){
 		floorPanelFlags[floor][1] = true;
 	}
 }
