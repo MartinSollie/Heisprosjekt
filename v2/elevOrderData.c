@@ -39,13 +39,13 @@ void order_deleteFloorOrders(unsigned int floor){
 	floorPanelFlags[floor][1] = false; // up
 }
 
-void order_deactivateAndDeleteOrders(void){
+void order_disableAndDeleteOrders(void){
 	orderingAllowed = false;
 	for(int i = 0; i < NFLOORS; i++){
 		order_deleteFloorOrders(i);
 	}
 }
 
-void order_activateOrdering(void){
+void order_enableOrdering(void){
 	orderingAllowed = true;
 }
