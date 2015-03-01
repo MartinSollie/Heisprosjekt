@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <stdbool.h>
 #include "elev.h"
 #include "elev_fsm.h"
@@ -14,9 +13,7 @@ static bool checkRequestStop(void);
 static bool checkRequestOppositeDirection(void);
 
 
-
-
-
+//Public function definitions
 state_t fsm_getCurrentState(void){
 	return state;
 }
@@ -113,6 +110,9 @@ void fsm_evNextFloorReached(int floorSignal){
 }
 
 
+
+
+// Local function definitions
 static bool checkRequestStop(void){
 	// Check for request(s) to get off, or on in current direction here
 	if (elev_get_floor_sensor_signal() != -1){ //Elevator is at a floor
@@ -166,50 +166,6 @@ static bool checkRequestAhead(void){
 		}
 	}
 	return false;
-
-	/*
-	// Check for request(s) ahead
-	int dir = pos_getCurrentDirection();
-	if (elev_get_floor_sensor_signal() != -1){ 
-		// If direction is up: check floors above, if direction is down: check floors below
-		for (int i = pos_getLastFloorVisited()+dir; ((i < NFLOORS) && (i >= 0)); i += dir){
-			if(order_getElevPanelFlag(i) || order_getFloorPanelFlag(i,UP) || order_getFloorPanelFlag(i,DOWN)){
-				pos_saveDirectionWhenLeavingFloor(dir);
-				elev_set_motor_direction(dir);
-				state = STATE_MOVING;
-				return true;
-			}
-		}
-	}
-
-	else{ //Elevator is between floors after pressing and releasing stop button while moving
-		int lastDir = pos_getDirectionWhenLeavingLastFloor();
-		unsigned int lastFloor = pos_getLastFloorVisited();
-
-		unsigned int searchFromFloor;
-		if (dir == 1 && lastDir == 1){ // Above last floor, current direction is up 
-			searchFromFloor = lastFloor+1;
-		}
-		else if(dir == 1 && lastDir == -1){ // Below last floor, current direction is up 
-			searchFromFloor = lastFloor;
-		}
-		else if(dir == -1 && lastDir == 1){ // Above last floor, current direction is down 
-			searchFromFloor = lastFloor;
-		}
-		else{ // Below last floor, current direction is down
-			searchFromFloor = lastFloor-1;
-		}
-
-		for (int i = searchFromFloor; ((i < NFLOORS) && (i >= 0)); i += dir){
-			if(order_getElevPanelFlag(i) || order_getFloorPanelFlag(i,UP) || order_getFloorPanelFlag(i,DOWN)){
-				elev_set_motor_direction(dir);
-				state = STATE_MOVING;
-				return true;
-			}
-		}
-	}
-	return false;
-	*/
 }
 
 static bool checkRequestOppositeDirection(void){

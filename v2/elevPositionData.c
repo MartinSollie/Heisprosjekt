@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include "elevPositionData.h"
 
 static int currentDirection; // Current defined direction used for controlling elevator movement.

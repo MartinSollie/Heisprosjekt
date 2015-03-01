@@ -1,9 +1,6 @@
 #include "timer.h"
 #include <time.h>
 #include <assert.h>
-#include <stdio.h>
-
-
 
 static time_t start_seconds = -1;
 static long int start_nanoseconds = -1;

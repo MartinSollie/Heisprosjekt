@@ -6,7 +6,6 @@
 #include "elev_fsm.h"
 #include "elev.h"
 
-
 // Bool variable for each button used for edge triggering
 static bool buttonCommandBlocked[N_FLOORS] = {0};
 static bool buttonUpBlocked[N_FLOORS-1] = {0};
