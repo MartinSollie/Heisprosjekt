@@ -27,7 +27,7 @@ int main(void){
     fsm_evSystemStarted();
 
     while(1){
-        
+
         pollButtons();
 
         // Handle events:
@@ -69,7 +69,7 @@ int main(void){
                 // Check if a floor is reached:
                 // Must be a different floor than the last floor reached, unless direction is inverted
 				int floor = elev_get_floor_sensor_signal();
-				if(((floor != -1) && (floor != pos_getLastFloorVisited())) || ((floor == pos_getLastFloorVisited()) && (pos_getCurrentDirection() != pos_getDirectionWhenLeavingLastFloor()))){
+				if(((floor != -1) && (floor != pos_getLastFloorVisited())) || ((floor == pos_getLastFloorVisited()) && (pos_getCurrentDirection() != pos_getDirectionWhenLeavingLastFloor()))) {
 					fsm_evNextFloorReached();
 				}
 				break;
