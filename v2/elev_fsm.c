@@ -163,7 +163,7 @@ static bool checkRequestAhead(void){
 		else if(dir == -1 && lastDir == 1){ // Above last floor, current direction is down 
 			searchFromFloor = lastFloor;
 		}
-		else if (dir == -1 && lastDir == -1){ // Below last floor, current direction is down
+		else{ // Below last floor, current direction is down
 			searchFromFloor = lastFloor-1;
 		}
 
@@ -208,7 +208,7 @@ static bool checkRequestOppositeDirection(void){
 		else if(dir == 1 && lastDir == -1){ // Below last floor, current direction is up 
 			searchFromFloor = lastFloor-1;
 		}
-		else if(dir == -1 && lastDir == 1){ // Above last floor, current direction is down 
+		else{ // Above last floor, current direction is down 
 			searchFromFloor = lastFloor+1;
 		}
 
