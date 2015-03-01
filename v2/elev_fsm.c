@@ -164,7 +164,7 @@ static bool checkRequestAhead(void){
 			searchFromFloor = lastFloor;
 		}
 		else if (dir == -1 && lastDir == -1){ // Below last floor, current direction is down
-			searchFromFloor = lastFloor-1:
+			searchFromFloor = lastFloor-1;
 		}
 
 		for (int i = searchFromFloor; ((i < NFLOORS) && (i >= 0)); i += dir){
@@ -203,7 +203,7 @@ static bool checkRequestOppositeDirection(void){
 			searchFromFloor = lastFloor;
 		}
 		else if (dir == -1 && lastDir == -1){ // Below last floor, current direction is down
-			searchFromFloor = lastFloor:
+			searchFromFloor = lastFloor;
 		}
 		else if(dir == 1 && lastDir == -1){ // Below last floor, current direction is up 
 			searchFromFloor = lastFloor-1;
@@ -213,7 +213,7 @@ static bool checkRequestOppositeDirection(void){
 		}
 
 
-		for (int i = countFromFloor; ((i < NFLOORS) && (i >= 0)); i -= dir){
+		for (int i = searchFromFloor; ((i < NFLOORS) && (i >= 0)); i -= dir){
 			if (order_getElevPanelFlag(i) || order_getFloorPanelFlag(i,UP) || order_getFloorPanelFlag(i,DOWN)){
 				pos_invertCurrentDirection();
 				state = STATE_CHECK_ELEVATOR_ACTIONS;
