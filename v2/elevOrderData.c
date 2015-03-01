@@ -47,8 +47,8 @@ void order_deleteFloorOrders(unsigned int floor){
 
 	//Turn off button lights
 	elev_set_button_lamp(BUTTON_COMMAND, floor, 0);
-	if(i != 0){elev_set_button_lamp(BUTTON_CALL_DOWN, floor, 0);}
-	if(i != N_FLOORS-1){elev_set_button_lamp(BUTTON_CALL_UP, floor, 0);}
+	if(floor != 0){elev_set_button_lamp(BUTTON_CALL_DOWN, floor, 0);}
+	if(floor != N_FLOORS-1){elev_set_button_lamp(BUTTON_CALL_UP, floor, 0);}
 }
 
 void order_disableAndDeleteOrders(void){
