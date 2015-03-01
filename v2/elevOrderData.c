@@ -1,5 +1,6 @@
 #include <assert.h>
 #include "elevOrderData.h"
+#include "elev.h"
 
 static bool orderingAllowed = true;
 static bool elevPanelFlags[NFLOORS] = {0};
@@ -21,25 +22,33 @@ bool order_getElevPanelFlag(unsigned int floor){
 void order_addElevPanelOrder(unsigned int floor){
 	if(!elevPanelFlags[floor] && orderingAllowed){
 		elevPanelFlags[floor] = true;
+		elev_set_button_lamp(BUTTON_COMMAND, floor, 1);
 	}
 }
 
 void order_addFloorPanelOrder(unsigned int floor, int direction){
-	assert(floor != 0 && direction != -1);
-	assert(floor != NFLOORS-1 && direction != 1);
+	assert(!(floor == 0 && direction == -1));
+	assert(!(floor == NFLOORS-1 && direction == 1));
 
 	if (direction == 1 && orderingAllowed){
 		floorPanelFlags[floor][0] = true;
+		elev_set_button_lamp(BUTTON_CALL_UP, floor, 1);
 	}
 	else if(direction == -1 && orderingAllowed){
 		floorPanelFlags[floor][1] = true;
+		elev_set_button_lamp(BUTTON_CALL_DOWN, floor, 1);
 	}
 }
 
 void order_deleteFloorOrders(unsigned int floor){
 	elevPanelFlags[floor] = false;
-	floorPanelFlags[floor][0] = false; // down
-	floorPanelFlags[floor][1] = false; // up
+	floorPanelFlags[floor][0] = false; // up
+	floorPanelFlags[floor][1] = false; // down
+
+	//Turn off button lights
+	elev_set_button_lamp(BUTTON_COMMAND, floor, 0);
+	if(i != 0){elev_set_button_lamp(BUTTON_CALL_DOWN, floor, 0);}
+	if(i != N_FLOORS-1){elev_set_button_lamp(BUTTON_CALL_UP, floor, 0);}
 }
 
 void order_disableAndDeleteOrders(void){
