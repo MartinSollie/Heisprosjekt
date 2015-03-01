@@ -1,3 +1,9 @@
+/*
+Elevator state machine
+elev_fsm.c
+Martin Sollie & Øystein Lasson
+*/
+
 #include <stdbool.h>
 #include "elev.h"
 #include "elev_fsm.h"

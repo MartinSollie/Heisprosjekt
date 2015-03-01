@@ -1,3 +1,9 @@
+/*
+Elevator state machine
+elev_fsm.h
+Martin Sollie & Øystein Lasson
+*/
+
 #ifndef _ELEV_FSM_H_
 #define _ELEV_FSM_H_
 

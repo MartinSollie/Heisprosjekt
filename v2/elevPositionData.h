@@ -1,3 +1,9 @@
+/*
+Elevator position data module
+elevPositionData.h
+Martin Sollie & Øystein Lasson
+*/
+
 #ifndef _ELEV_POSITION_DATA_H_
 #define _ELEV_POSITION_DATA_H_
 

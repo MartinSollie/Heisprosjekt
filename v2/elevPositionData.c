@@ -1,6 +1,12 @@
+/*
+Elevator position data module
+elevPositionData.c
+Martin Sollie & Øystein Lasson
+*/
+
 #include "elevPositionData.h"
 
-static int currentDirection; // Current defined direction used for controlling elevator movement.
+static int currentDirection; // Current defined direction used for controlling elevator movement
 static int directionWhenLeavingLastFloor;
 static unsigned int lastFloorVisited;
 

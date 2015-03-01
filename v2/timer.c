@@ -1,3 +1,9 @@
+/*
+Elevator timekeeping module
+timer.c
+Martin Sollie & Øystein Lasson
+*/
+
 #include "timer.h"
 #include <time.h>
 #include <assert.h>

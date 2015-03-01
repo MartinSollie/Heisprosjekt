@@ -1,3 +1,9 @@
+/*
+Elevator timekeeping module
+timer.h
+Martin Sollie & Øystein Lasson
+*/
+
 #ifndef _TIMER_H_
 #define _TIMER_H_
 

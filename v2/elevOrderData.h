@@ -1,3 +1,9 @@
+/*
+Elevator order storage module
+elevOrderData.h
+Martin Sollie & Øystein Lasson
+*/
+
 #ifndef _ELEV_ORDER_DATA_H_
 #define _ELEV_ORDER_DATA_H_
 

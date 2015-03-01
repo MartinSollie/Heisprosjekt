@@ -1,3 +1,9 @@
+/*
+Elevator event handler
+main.c
+Martin Sollie & Øystein Lasson
+*/
+
 #include <stdio.h>
 #include <stdbool.h>
 #include "timer.h"
@@ -11,7 +17,7 @@ static bool buttonCommandBlocked[N_FLOORS] = {0};
 static bool buttonUpBlocked[N_FLOORS-1] = {0};
 static bool buttonDownBlocked[N_FLOORS-1] = {0};
 
-//Local function
+//Local function declaration
 void pollButtons(void);
 
 
@@ -78,7 +84,7 @@ int main(void){
 
 }
 
-
+// Local function definition
 void pollButtons(void){
     //Poll buttons and add orders
     for (int i = 0; i < N_FLOORS; i++){
