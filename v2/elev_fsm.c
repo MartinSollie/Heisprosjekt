@@ -8,15 +8,18 @@
 
 static state_t state;
 
-state_t fsm_getCurrentState(void){
-	return state;
-}
-
-//
+// Local function declarations
 static bool checkRequestAhead(void);
 static bool checkRequestStop(void);
 static bool checkRequestOppositeDirection(void);
 
+
+
+
+
+state_t fsm_getCurrentState(void){
+	return state;
+}
 
 void fsm_evSystemStarted(void){
 	pos_setCurrentDirection(UP);
@@ -63,7 +66,7 @@ void fsm_evStopButtonReleasedBetweenFloors(void){
 	state = STATE_STOP_BUTTON_RELEASED_BETWEEN_FLOORS;
 }
 
-void fsm_evReadyToCheckActions(void){
+void fsm_evCheckElevActions(void){
 
 	// Guard conditions
 	if (state == STATE_STOP_BUTTON_RELEASED_AT_FLOOR){
@@ -103,12 +106,7 @@ void fsm_evTimeOut(void){
 }
 
 
-void fsm_evNextFloorReached(void){
-	int floorSignal = elev_get_floor_sensor_signal();
-	if (floorSignal == -1){
-		printf("ERROR\n");
-		return;
-	}
+void fsm_evNextFloorReached(int floorSignal){
 	elev_set_floor_indicator(floorSignal);
 	pos_setLastFloorVisited(floorSignal);
 	state = STATE_CHECK_ELEVATOR_ACTIONS;
@@ -139,6 +137,37 @@ static bool checkRequestStop(void){
 }
 
 static bool checkRequestAhead(void){
+	// Check for request(s) ahead
+	int dir = pos_getCurrentDirection();
+	int lastDir = pos_getDirectionWhenLeavingLastFloor();
+	unsigned int lastFloor = pos_getLastFloorVisited(); //If currently at floor: this is the current floor
+	unsigned int searchFromFloor;
+
+	if (elev_get_floor_sensor_signal() != -1) {searchFromFloor = lastFloor + dir;}
+	else if (dir == 1 && lastDir == 1){ // Above last floor, current direction is up 
+		searchFromFloor = lastFloor+1;
+	}
+	else if(dir == 1 && lastDir == -1){ // Below last floor, current direction is up 
+		searchFromFloor = lastFloor;
+	}
+	else if(dir == -1 && lastDir == 1){ // Above last floor, current direction is down 
+		searchFromFloor = lastFloor;
+	}
+	else{ // Below last floor, current direction is down
+		searchFromFloor = lastFloor-1;
+	}
+
+	for (int i = searchFromFloor; ((i < NFLOORS) && (i >= 0)); i += dir){
+		if(order_getElevPanelFlag(i) || order_getFloorPanelFlag(i,UP) || order_getFloorPanelFlag(i,DOWN)){
+			if(elev_get_floor_sensor_signal() != -1) pos_saveDirectionWhenLeavingFloor(dir);
+			elev_set_motor_direction(dir);
+			state = STATE_MOVING;
+			return true;
+		}
+	}
+	return false;
+
+	/*
 	// Check for request(s) ahead
 	int dir = pos_getCurrentDirection();
 	if (elev_get_floor_sensor_signal() != -1){ 
@@ -180,9 +209,11 @@ static bool checkRequestAhead(void){
 		}
 	}
 	return false;
+	*/
 }
 
 static bool checkRequestOppositeDirection(void){
+
 	//Any request behind, or in opposite direction here?
 	int dir = pos_getCurrentDirection();
 	unsigned int lastFloor = pos_getLastFloorVisited();

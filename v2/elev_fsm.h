@@ -6,7 +6,7 @@
 #define DOWN -1
 
 typedef enum fsm_states {
-	STATE_CHECK_ELEVATOR_ACTIONS, /////// FIND NEW NAME!!!!!!!
+	STATE_CHECK_ELEVATOR_ACTIONS,
 	STATE_STOP_BUTTON_PRESSED,
 	STATE_STOP_BUTTON_RELEASED_AT_FLOOR,
 	STATE_STOP_BUTTON_RELEASED_BETWEEN_FLOORS,
@@ -21,8 +21,8 @@ void fsm_evSystemStarted(void); // Initialization event
 void fsm_evStopButtonPressed(void);
 void fsm_evStopButtonReleasedAtFloor(void);
 void fsm_evStopButtonReleasedBetweenFloors(void);
-void fsm_evReadyToCheckActions(void); /////////CHANGE TO: fsm_evCheckElevActions()
+void fsm_evCheckElevActions(void);
 void fsm_evTimeOut(void); // Door has been open 3 seconds
-void fsm_evNextFloorReached(void);
+void fsm_evNextFloorReached(int floorSignal);
 
 #endif

@@ -42,7 +42,7 @@ int main(void){
         // Check for events based on current state
     	switch(fsm_getCurrentState()){
     		case(STATE_CHECK_ELEVATOR_ACTIONS):
-    			fsm_evReadyToCheckActions();
+    			fsm_evCheckElevActions();
     			break;
 			case(STATE_STOP_BUTTON_PRESSED):
 				if(elev_get_stop_signal() == 0){
@@ -55,10 +55,10 @@ int main(void){
 				}
 				break;
 			case(STATE_STOP_BUTTON_RELEASED_AT_FLOOR):
-				fsm_evReadyToCheckActions();
+				fsm_evCheckElevActions();
 				break;
 			case(STATE_STOP_BUTTON_RELEASED_BETWEEN_FLOORS):
-				fsm_evReadyToCheckActions();
+				fsm_evCheckElevActions();
 				break;
 			case(STATE_ELEVATOR_OPEN):
 				if(timer_isTimeOut()){
@@ -70,7 +70,7 @@ int main(void){
                 // Must be a different floor than the last floor reached, unless direction is inverted
 				int floor = elev_get_floor_sensor_signal();
 				if(((floor != -1) && (floor != pos_getLastFloorVisited())) || ((floor == pos_getLastFloorVisited()) && (pos_getCurrentDirection() != pos_getDirectionWhenLeavingLastFloor()))) {
-					fsm_evNextFloorReached();
+					fsm_evNextFloorReached(floor);
 				}
 				break;
                 }
