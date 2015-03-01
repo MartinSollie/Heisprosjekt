@@ -105,6 +105,10 @@ void fsm_evTimeOut(void){
 
 void fsm_evNextFloorReached(void){
 	int floorSignal = elev_get_floor_sensor_signal();
+	if (floorSignal == -1){
+		printf("ERROR\n");
+		return;
+	}
 	elev_set_floor_indicator(floorSignal);
 	pos_setLastFloorVisited(floorSignal);
 	state = STATE_CHECK_ELEVATOR_ACTIONS;
